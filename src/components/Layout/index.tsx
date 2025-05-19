@@ -133,7 +133,7 @@ const SkipLink = styled.a`
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--primary-color);
+  background: #4B0082; /* Cor mais escura para melhor contraste */
   color: white;
   padding: 8px;
   z-index: 100;
@@ -243,7 +243,9 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
       
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       
-      <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
+      <header>
+        <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
+      </header>
       
       <Container>
         <Header>
@@ -256,12 +258,12 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
               <ActionButton aria-label="Pesquisar">
                 🔍
               </ActionButton>
-              <ActionButton aria-label="Notificações" style={{ position: 'relative' }}>
-                <Link to="/notificacoes" style={{ color: 'inherit', textDecoration: 'none' }}>
+              <Link to="/notificacoes" style={{ color: 'inherit', textDecoration: 'none' }}>
+                <ActionButton aria-label="Notificações" style={{ position: 'relative' }}>
                   🔔
                   <NotificationBadge />
-                </Link>
-              </ActionButton>
+                </ActionButton>
+              </Link>
               <Navigation>
                 <NavLink to="/">Dashboard</NavLink>
                 <NavLink to="/transacoes">Transações</NavLink>

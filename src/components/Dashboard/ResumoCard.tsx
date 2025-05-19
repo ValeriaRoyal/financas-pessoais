@@ -70,26 +70,26 @@ const TrendContainer = styled.div`
 const TrendIcon = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
   color: ${props => 
     props.$tendencia === 'up' 
-      ? 'var(--success-color)' 
+      ? '#006400' // Verde mais escuro para melhor contraste
       : props.$tendencia === 'down' 
-        ? 'var(--error-color)' 
-        : 'var(--text-secondary)'
+        ? '#8B0000' // Vermelho mais escuro para melhor contraste
+        : '#595959'
   };
 `;
 
 const TrendValue = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
   color: ${props => 
     props.$tendencia === 'up' 
-      ? 'var(--success-color)' 
+      ? '#006400' // Verde mais escuro para melhor contraste
       : props.$tendencia === 'down' 
-        ? 'var(--error-color)' 
-        : 'var(--text-secondary)'
+        ? '#8B0000' // Vermelho mais escuro para melhor contraste
+        : '#595959'
   };
   font-weight: 500;
 `;
 
 const TrendLabel = styled.span`
-  color: var(--text-secondary);
+  color: #595959; // Cor mais escura para melhor contraste
 `;
 
 // Componente para simular ícones (em um projeto real, usaríamos uma biblioteca de ícones)

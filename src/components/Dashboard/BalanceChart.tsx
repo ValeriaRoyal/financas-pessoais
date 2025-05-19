@@ -100,13 +100,13 @@ const SummaryItem = styled.div`
 
 const SummaryLabel = styled.span`
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: #595959; // Cor mais escura para melhor contraste
 `;
 
 const SummaryValue = styled.span<{ $color?: string }>`
   font-size: 1.1rem;
   font-weight: 500;
-  color: ${props => props.$color || 'var(--text-color)'};
+  color: ${props => props.$color || '#333333'}; // Garantir contraste suficiente
 `;
 
 const SummaryDivider = styled.div`
@@ -123,9 +123,9 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
   
   // Determinar a cor do saldo com base no valor
   const getSaldoColor = () => {
-    if (saldo < 0) return 'var(--error-color)'; // Vermelho para saldo negativo
-    if (saldo < totalReceitas * 0.2) return 'var(--warning-color)'; // Amarelo para saldo baixo (menos de 20% das receitas)
-    return 'var(--success-color)'; // Verde para saldo saudável
+    if (saldo < 0) return '#8B0000'; // Vermelho mais escuro para saldo negativo
+    if (saldo < totalReceitas * 0.2) return '#B8860B'; // Amarelo mais escuro para saldo baixo
+    return '#006400'; // Verde mais escuro para saldo saudável
   };
   
   // Formatar valores como moeda brasileira
@@ -144,13 +144,13 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
         <ChartVisual>
           <BarContainer>
             <BarGroup>
-              <Bar $height={receitasHeight} $color="var(--success-color)" />
+              <Bar $height={receitasHeight} $color="#006400" />
               <BarLabel>Entradas</BarLabel>
               <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
             </BarGroup>
             
             <BarGroup>
-              <Bar $height={despesasHeight} $color="var(--error-color)" />
+              <Bar $height={despesasHeight} $color="#8B0000" />
               <BarLabel>Saídas</BarLabel>
               <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
             </BarGroup>
@@ -160,12 +160,12 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
         <SummaryContainer>
           <SummaryItem>
             <SummaryLabel>Total de Entradas</SummaryLabel>
-            <SummaryValue $color="var(--success-color)">{formatarMoeda(totalReceitas)}</SummaryValue>
+            <SummaryValue $color="#006400">{formatarMoeda(totalReceitas)}</SummaryValue>
           </SummaryItem>
           
           <SummaryItem>
             <SummaryLabel>Total de Saídas</SummaryLabel>
-            <SummaryValue $color="var(--error-color)">{formatarMoeda(totalDespesas)}</SummaryValue>
+            <SummaryValue $color="#8B0000">{formatarMoeda(totalDespesas)}</SummaryValue>
           </SummaryItem>
           
           <SummaryDivider />
