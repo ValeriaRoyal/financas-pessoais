@@ -6,26 +6,24 @@ interface ResumoCardProps {
   valor: number;
   icone: string;
   cor: string;
+  tendencia?: 'up' | 'down' | 'neutral';
+  percentual?: number;
 }
 
-const CardContainer = styled.div<{ corFundo: string }>`
-  background-color: white;
+const CardContainer = styled.div`
+  background-color: var(--surface-color);
   border-radius: var(--border-radius);
-  padding: 1.5rem;
+  padding: var(--spacing-lg);
   box-shadow: var(--box-shadow);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
   
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0.5rem;
-    height: 100%;
-    background-color: ${props => props.corFundo};
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-hover);
   }
 `;
 
@@ -33,30 +31,65 @@ const CardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
 `;
 
 const CardTitle = styled.h3`
   margin: 0;
-  font-size: 1.1rem;
-  color: var(--text-color);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
 `;
 
 const IconContainer = styled.div<{ corIcone: string }>`
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background-color: ${props => `${props.corIcone}20`}; /* Cor com 20% de opacidade */
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: ${props => `${props.corIcone}15`}; /* Cor com 15% de opacidade */
   display: flex;
   align-items: center;
   justify-content: center;
   color: ${props => props.corIcone};
+  font-size: 1.5rem;
 `;
 
 const CardValue = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.75rem;
+  font-weight: 600;
   color: var(--text-color);
+  margin-bottom: var(--spacing-sm);
+`;
+
+const TrendContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+`;
+
+const TrendIcon = styled.span<{ tendencia: 'up' | 'down' | 'neutral' }>`
+  color: ${props => 
+    props.tendencia === 'up' 
+      ? 'var(--success-color)' 
+      : props.tendencia === 'down' 
+        ? 'var(--error-color)' 
+        : 'var(--text-secondary)'
+  };
+`;
+
+const TrendValue = styled.span<{ tendencia: 'up' | 'down' | 'neutral' }>`
+  color: ${props => 
+    props.tendencia === 'up' 
+      ? 'var(--success-color)' 
+      : props.tendencia === 'down' 
+        ? 'var(--error-color)' 
+        : 'var(--text-secondary)'
+  };
+  font-weight: 500;
+`;
+
+const TrendLabel = styled.span`
+  color: var(--text-secondary);
 `;
 
 // Componente para simular ícones (em um projeto real, usaríamos uma biblioteca de ícones)
@@ -65,15 +98,37 @@ const Icon = ({ name }: { name: string }) => {
   return <div aria-hidden="true">{name.charAt(0).toUpperCase()}</div>;
 };
 
-const ResumoCard: React.FC<ResumoCardProps> = ({ titulo, valor, icone, cor }) => {
+const ResumoCard: React.FC<ResumoCardProps> = ({ 
+  titulo, 
+  valor, 
+  icone, 
+  cor,
+  tendencia = 'neutral',
+  percentual = 0
+}) => {
   // Formatar o valor como moeda brasileira
   const valorFormatado = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
   }).format(valor);
   
+  // Determinar o ícone de tendência
+  const getTrendIcon = () => {
+    switch (tendencia) {
+      case 'up':
+        return '↑';
+      case 'down':
+        return '↓';
+      default:
+        return '→';
+    }
+  };
+  
+  // Formatar o percentual
+  const percentualFormatado = `${percentual > 0 ? '+' : ''}${percentual.toFixed(1)}%`;
+  
   return (
-    <CardContainer corFundo={cor}>
+    <CardContainer>
       <CardHeader>
         <CardTitle>{titulo}</CardTitle>
         <IconContainer corIcone={cor}>
@@ -81,6 +136,13 @@ const ResumoCard: React.FC<ResumoCardProps> = ({ titulo, valor, icone, cor }) =>
         </IconContainer>
       </CardHeader>
       <CardValue>{valorFormatado}</CardValue>
+      {percentual !== 0 && (
+        <TrendContainer>
+          <TrendIcon tendencia={tendencia}>{getTrendIcon()}</TrendIcon>
+          <TrendValue tendencia={tendencia}>{percentualFormatado}</TrendValue>
+          <TrendLabel>desde o mês passado</TrendLabel>
+        </TrendContainer>
+      )}
     </CardContainer>
   );
 };
