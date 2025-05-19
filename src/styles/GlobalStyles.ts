@@ -28,6 +28,7 @@ const GlobalStyles = createGlobalStyle`
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
   /* Foco visível para acessibilidade */

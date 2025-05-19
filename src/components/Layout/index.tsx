@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Sidebar from '../Sidebar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ const Container = styled.div`
   /* Mobile first - ajustes para telas maiores */
   @media (min-width: 768px) {
     padding: 2rem;
+    margin-left: 250px; /* Espaço para a sidebar */
   }
 `;
 
@@ -27,17 +29,43 @@ const Header = styled.header`
   margin-bottom: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const MenuButton = styled.button`
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: block;
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+  
+  &:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
 `;
 
 const HeaderContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `;
 
 const Navigation = styled.nav`
-  display: flex;
-  gap: 1rem;
+  display: none;
+  
+  @media (min-width: 768px) {
+    display: flex;
+    gap: 1rem;
+  }
 `;
 
 const NavLink = styled(Link)`
@@ -62,6 +90,10 @@ const Main = styled.main`
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   min-height: 70vh;
+  
+  @media (min-width: 768px) {
+    min-height: calc(100vh - 200px);
+  }
 `;
 
 const Footer = styled.footer`
@@ -87,6 +119,12 @@ const SkipLink = styled.a`
 `;
 
 const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicativo de finanças pessoais' }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+  
   return (
     <>
       <Helmet>
@@ -96,10 +134,15 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
         <html lang="pt-BR" />
       </Helmet>
       
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      
       <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
       
       <Container>
         <Header>
+          <MenuButton onClick={toggleSidebar} aria-label="Abrir menu">
+            ☰
+          </MenuButton>
           <HeaderContent>
             <h1>{title}</h1>
             <Navigation>
