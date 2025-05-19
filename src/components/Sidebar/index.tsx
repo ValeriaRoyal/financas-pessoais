@@ -7,7 +7,7 @@ interface SidebarProps {
   toggleSidebar: () => void;
 }
 
-const SidebarContainer = styled.aside<{ isOpen: boolean }>`
+const SidebarContainer = styled.aside<{ $isOpen: boolean }>`
   position: fixed;
   left: 0;
   top: 0;
@@ -15,10 +15,10 @@ const SidebarContainer = styled.aside<{ isOpen: boolean }>`
   width: 280px;
   background-color: var(--surface-color);
   color: var(--text-color);
-  transform: translateX(${props => props.isOpen ? '0' : '-100%'});
+  transform: translateX(${props => props.$isOpen ? '0' : '-100%'});
   transition: transform 0.3s ease;
   z-index: 1000;
-  box-shadow: ${props => props.isOpen ? 'var(--box-shadow)' : 'none'};
+  box-shadow: ${props => props.$isOpen ? 'var(--box-shadow)' : 'none'};
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   
   @media (min-width: 768px) {
@@ -113,16 +113,16 @@ const SectionTitle = styled.h3`
   font-weight: 600;
 `;
 
-const NavItem = styled(Link)<{ active: boolean }>`
+const NavItem = styled(Link)<{ $active: boolean }>`
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  color: ${props => props.active ? 'var(--primary-color)' : 'var(--text-color)'};
+  color: ${props => props.$active ? 'var(--primary-color)' : 'var(--text-color)'};
   text-decoration: none;
   transition: all 0.2s;
-  background-color: ${props => props.active ? 'rgba(98, 0, 238, 0.05)' : 'transparent'};
-  border-left: 3px solid ${props => props.active ? 'var(--primary-color)' : 'transparent'};
-  font-weight: ${props => props.active ? '500' : 'normal'};
+  background-color: ${props => props.$active ? 'rgba(98, 0, 238, 0.05)' : 'transparent'};
+  border-left: 3px solid ${props => props.$active ? 'var(--primary-color)' : 'transparent'};
+  font-weight: ${props => props.$active ? '500' : 'normal'};
   
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
@@ -135,7 +135,7 @@ const NavItem = styled(Link)<{ active: boolean }>`
   }
 `;
 
-const IconContainer = styled.span<{ active: boolean }>`
+const IconContainer = styled.span<{ $active: boolean }>`
   width: 36px;
   height: 36px;
   display: flex;
@@ -144,13 +144,13 @@ const IconContainer = styled.span<{ active: boolean }>`
   margin-right: 0.75rem;
   font-size: 1.25rem;
   border-radius: 8px;
-  background-color: ${props => props.active ? 'var(--primary-color)' : 'rgba(0, 0, 0, 0.03)'};
-  color: ${props => props.active ? 'white' : 'var(--text-secondary)'};
+  background-color: ${props => props.$active ? 'var(--primary-color)' : 'rgba(0, 0, 0, 0.03)'};
+  color: ${props => props.$active ? 'white' : 'var(--text-secondary)'};
   transition: all 0.2s;
   
   ${NavItem}:hover & {
-    background-color: ${props => props.active ? 'var(--primary-color)' : 'rgba(98, 0, 238, 0.1)'};
-    color: ${props => props.active ? 'white' : 'var(--primary-color)'};
+    background-color: ${props => props.$active ? 'var(--primary-color)' : 'rgba(98, 0, 238, 0.1)'};
+    color: ${props => props.$active ? 'white' : 'var(--primary-color)'};
   }
 `;
 
@@ -158,7 +158,7 @@ const NavText = styled.span`
   font-size: 0.95rem;
 `;
 
-const Overlay = styled.div<{ isOpen: boolean }>`
+const Overlay = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -166,8 +166,8 @@ const Overlay = styled.div<{ isOpen: boolean }>`
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
-  opacity: ${props => props.isOpen ? 1 : 0};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  opacity: ${props => props.$isOpen ? 1 : 0};
+  visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
   transition: opacity 0.3s, visibility 0.3s;
   
   @media (min-width: 768px) {
@@ -194,7 +194,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   
   return (
     <>
-      <SidebarContainer isOpen={isOpen}>
+      <SidebarContainer $isOpen={isOpen}>
         <SidebarHeader>
           <Logo>
             <LogoIcon>💰</LogoIcon>
@@ -209,48 +209,48 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           <SidebarNav>
             <NavSection>
               <SectionTitle>Principal</SectionTitle>
-              <NavItem to="/" active={isActive('/')}>
-                <IconContainer active={isActive('/')}>📊</IconContainer>
+              <NavItem to="/" $active={isActive('/')}>
+                <IconContainer $active={isActive('/')}>📊</IconContainer>
                 <NavText>Dashboard</NavText>
               </NavItem>
-              <NavItem to="/transacoes" active={isActive('/transacoes')}>
-                <IconContainer active={isActive('/transacoes')}>💰</IconContainer>
+              <NavItem to="/transacoes" $active={isActive('/transacoes')}>
+                <IconContainer $active={isActive('/transacoes')}>💰</IconContainer>
                 <NavText>Transações</NavText>
               </NavItem>
             </NavSection>
             
             <NavSection>
               <SectionTitle>Gerenciamento</SectionTitle>
-              <NavItem to="/cartoes" active={isActive('/cartoes')}>
-                <IconContainer active={isActive('/cartoes')}>💳</IconContainer>
+              <NavItem to="/cartoes" $active={isActive('/cartoes')}>
+                <IconContainer $active={isActive('/cartoes')}>💳</IconContainer>
                 <NavText>Cartões de Crédito</NavText>
               </NavItem>
-              <NavItem to="/investimentos" active={isActive('/investimentos')}>
-                <IconContainer active={isActive('/investimentos')}>📈</IconContainer>
+              <NavItem to="/investimentos" $active={isActive('/investimentos')}>
+                <IconContainer $active={isActive('/investimentos')}>📈</IconContainer>
                 <NavText>Investimentos</NavText>
               </NavItem>
-              <NavItem to="/reservas" active={isActive('/reservas')}>
-                <IconContainer active={isActive('/reservas')}>🛡️</IconContainer>
+              <NavItem to="/reservas" $active={isActive('/reservas')}>
+                <IconContainer $active={isActive('/reservas')}>🛡️</IconContainer>
                 <NavText>Reserva de Emergência</NavText>
               </NavItem>
             </NavSection>
             
             <NavSection>
               <SectionTitle>Análises</SectionTitle>
-              <NavItem to="/relatorios" active={isActive('/relatorios')}>
-                <IconContainer active={isActive('/relatorios')}>📝</IconContainer>
+              <NavItem to="/relatorios" $active={isActive('/relatorios')}>
+                <IconContainer $active={isActive('/relatorios')}>📝</IconContainer>
                 <NavText>Relatórios</NavText>
               </NavItem>
-              <NavItem to="/metas" active={isActive('/metas')}>
-                <IconContainer active={isActive('/metas')}>🎯</IconContainer>
+              <NavItem to="/metas" $active={isActive('/metas')}>
+                <IconContainer $active={isActive('/metas')}>🎯</IconContainer>
                 <NavText>Metas Financeiras</NavText>
               </NavItem>
             </NavSection>
             
             <NavSection>
               <SectionTitle>Configurações</SectionTitle>
-              <NavItem to="/configuracoes" active={isActive('/configuracoes')}>
-                <IconContainer active={isActive('/configuracoes')}>⚙️</IconContainer>
+              <NavItem to="/configuracoes" $active={isActive('/configuracoes')}>
+                <IconContainer $active={isActive('/configuracoes')}>⚙️</IconContainer>
                 <NavText>Configurações</NavText>
               </NavItem>
             </NavSection>
@@ -262,7 +262,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         </SidebarFooter>
       </SidebarContainer>
       
-      <Overlay isOpen={isOpen} onClick={toggleSidebar} />
+      <Overlay $isOpen={isOpen} onClick={toggleSidebar} />
     </>
   );
 };

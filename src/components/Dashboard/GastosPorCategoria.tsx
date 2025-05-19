@@ -28,11 +28,11 @@ const LegendItem = styled.div`
   gap: 0.5rem;
 `;
 
-const ColorIndicator = styled.div<{ cor: string }>`
+const ColorIndicator = styled.div<{ $cor: string }>`
   width: 1rem;
   height: 1rem;
   border-radius: 3px;
-  background-color: ${props => props.cor};
+  background-color: ${props => props.$cor};
 `;
 
 const LegendText = styled.div`
@@ -75,10 +75,10 @@ const BarOuter = styled.div`
   overflow: hidden;
 `;
 
-const BarInner = styled.div<{ width: string; cor: string }>`
+const BarInner = styled.div<{ $width: string; $cor: string }>`
   height: 100%;
-  width: ${props => props.width};
-  background-color: ${props => props.cor};
+  width: ${props => props.$width};
+  background-color: ${props => props.$cor};
 `;
 
 // Cores para as categorias
@@ -135,8 +135,8 @@ const GastosPorCategoria: React.FC = () => {
             </BarLabel>
             <BarOuter>
               <BarInner 
-                width={`${item.percentual}%`} 
-                cor={coresCategorias[item.categoria]} 
+                $width={`${item.percentual}%`} 
+                $cor={coresCategorias[item.categoria]} 
               />
             </BarOuter>
           </BarContainer>
@@ -146,7 +146,7 @@ const GastosPorCategoria: React.FC = () => {
       <ChartLegend>
         {dados.map(item => (
           <LegendItem key={item.categoria}>
-            <ColorIndicator cor={coresCategorias[item.categoria]} />
+            <ColorIndicator $cor={coresCategorias[item.categoria]} />
             <LegendText>
               <CategoryName>{item.categoria}</CategoryName>
               <CategoryValue>{formatarMoeda(item.valor)}</CategoryValue>

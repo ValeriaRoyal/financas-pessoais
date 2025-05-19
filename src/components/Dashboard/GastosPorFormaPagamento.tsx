@@ -31,16 +31,16 @@ const DonutChart = styled.div`
 `;
 
 const DonutSegment = styled.div<{ 
-  rotacao: number; 
-  angulo: number; 
-  cor: string; 
+  $rotacao: number; 
+  $angulo: number; 
+  $cor: string; 
 }>`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  transform: rotate(${props => props.rotacao}deg);
+  transform: rotate(${props => props.$rotacao}deg);
   
   &::before {
     content: '';
@@ -49,9 +49,9 @@ const DonutSegment = styled.div<{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${props => props.cor};
+    background-color: ${props => props.$cor};
     transform-origin: center;
-    transform: rotate(${props => props.angulo}deg);
+    transform: rotate(${props => props.$angulo}deg);
   }
 `;
 
@@ -94,11 +94,11 @@ const LegendItem = styled.div`
   gap: 0.5rem;
 `;
 
-const ColorIndicator = styled.div<{ cor: string }>`
+const ColorIndicator = styled.div<{ $cor: string }>`
   width: 1rem;
   height: 1rem;
   border-radius: 3px;
-  background-color: ${props => props.cor};
+  background-color: ${props => props.$cor};
 `;
 
 const LegendText = styled.div`
@@ -182,9 +182,9 @@ const GastosPorFormaPagamento: React.FC = () => {
           {segmentos.map((segmento, index) => (
             <DonutSegment 
               key={index}
-              rotacao={segmento.rotacao}
-              angulo={segmento.angulo}
-              cor={segmento.cor}
+              $rotacao={segmento.rotacao}
+              $angulo={segmento.angulo}
+              $cor={segmento.cor}
             />
           ))}
         </DonutChart>
@@ -197,7 +197,7 @@ const GastosPorFormaPagamento: React.FC = () => {
       <ChartLegend>
         {dados.map(item => (
           <LegendItem key={item.formaPagamento}>
-            <ColorIndicator cor={coresFormasPagamento[item.formaPagamento]} />
+            <ColorIndicator $cor={coresFormasPagamento[item.formaPagamento]} />
             <LegendText>
               <PaymentName>{item.formaPagamento}</PaymentName>
               <PaymentValue>{formatarMoeda(item.valor)}</PaymentValue>

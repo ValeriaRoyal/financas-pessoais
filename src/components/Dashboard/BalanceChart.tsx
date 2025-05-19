@@ -59,10 +59,10 @@ const BarGroup = styled.div`
   width: 80px;
 `;
 
-const Bar = styled.div<{ height: string; color: string }>`
+const Bar = styled.div<{ $height: string; $color: string }>`
   width: 80px;
-  height: ${props => props.height};
-  background-color: ${props => props.color};
+  height: ${props => props.$height};
+  background-color: ${props => props.$color};
   border-radius: 8px 8px 0 0;
   transition: height 0.5s ease;
   position: relative;
@@ -103,10 +103,10 @@ const SummaryLabel = styled.span`
   color: var(--text-secondary);
 `;
 
-const SummaryValue = styled.span<{ color?: string }>`
+const SummaryValue = styled.span<{ $color?: string }>`
   font-size: 1.1rem;
   font-weight: 500;
-  color: ${props => props.color || 'var(--text-color)'};
+  color: ${props => props.$color || 'var(--text-color)'};
 `;
 
 const SummaryDivider = styled.div`
@@ -144,13 +144,13 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
         <ChartVisual>
           <BarContainer>
             <BarGroup>
-              <Bar height={receitasHeight} color="var(--success-color)" />
+              <Bar $height={receitasHeight} $color="var(--success-color)" />
               <BarLabel>Entradas</BarLabel>
               <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
             </BarGroup>
             
             <BarGroup>
-              <Bar height={despesasHeight} color="var(--error-color)" />
+              <Bar $height={despesasHeight} $color="var(--error-color)" />
               <BarLabel>Saídas</BarLabel>
               <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
             </BarGroup>
@@ -160,19 +160,19 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
         <SummaryContainer>
           <SummaryItem>
             <SummaryLabel>Total de Entradas</SummaryLabel>
-            <SummaryValue color="var(--success-color)">{formatarMoeda(totalReceitas)}</SummaryValue>
+            <SummaryValue $color="var(--success-color)">{formatarMoeda(totalReceitas)}</SummaryValue>
           </SummaryItem>
           
           <SummaryItem>
             <SummaryLabel>Total de Saídas</SummaryLabel>
-            <SummaryValue color="var(--error-color)">{formatarMoeda(totalDespesas)}</SummaryValue>
+            <SummaryValue $color="var(--error-color)">{formatarMoeda(totalDespesas)}</SummaryValue>
           </SummaryItem>
           
           <SummaryDivider />
           
           <SummaryItem>
             <SummaryLabel>Saldo</SummaryLabel>
-            <SummaryValue color={getSaldoColor()}>{formatarMoeda(saldo)}</SummaryValue>
+            <SummaryValue $color={getSaldoColor()}>{formatarMoeda(saldo)}</SummaryValue>
           </SummaryItem>
           
           <SummaryItem>

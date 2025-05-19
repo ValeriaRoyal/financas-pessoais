@@ -41,15 +41,15 @@ const CardTitle = styled.h3`
   font-weight: 500;
 `;
 
-const IconContainer = styled.div<{ corIcone: string }>`
+const IconContainer = styled.div<{ $corIcone: string }>`
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background-color: ${props => `${props.corIcone}15`}; /* Cor com 15% de opacidade */
+  background-color: ${props => `${props.$corIcone}15`}; /* Cor com 15% de opacidade */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.corIcone};
+  color: ${props => props.$corIcone};
   font-size: 1.5rem;
 `;
 
@@ -67,21 +67,21 @@ const TrendContainer = styled.div`
   font-size: 0.875rem;
 `;
 
-const TrendIcon = styled.span<{ tendencia: 'up' | 'down' | 'neutral' }>`
+const TrendIcon = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
   color: ${props => 
-    props.tendencia === 'up' 
+    props.$tendencia === 'up' 
       ? 'var(--success-color)' 
-      : props.tendencia === 'down' 
+      : props.$tendencia === 'down' 
         ? 'var(--error-color)' 
         : 'var(--text-secondary)'
   };
 `;
 
-const TrendValue = styled.span<{ tendencia: 'up' | 'down' | 'neutral' }>`
+const TrendValue = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
   color: ${props => 
-    props.tendencia === 'up' 
+    props.$tendencia === 'up' 
       ? 'var(--success-color)' 
-      : props.tendencia === 'down' 
+      : props.$tendencia === 'down' 
         ? 'var(--error-color)' 
         : 'var(--text-secondary)'
   };
@@ -131,15 +131,15 @@ const ResumoCard: React.FC<ResumoCardProps> = ({
     <CardContainer>
       <CardHeader>
         <CardTitle>{titulo}</CardTitle>
-        <IconContainer corIcone={cor}>
+        <IconContainer $corIcone={cor}>
           <Icon name={icone} />
         </IconContainer>
       </CardHeader>
       <CardValue>{valorFormatado}</CardValue>
       {percentual !== 0 && (
         <TrendContainer>
-          <TrendIcon tendencia={tendencia}>{getTrendIcon()}</TrendIcon>
-          <TrendValue tendencia={tendencia}>{percentualFormatado}</TrendValue>
+          <TrendIcon $tendencia={tendencia}>{getTrendIcon()}</TrendIcon>
+          <TrendValue $tendencia={tendencia}>{percentualFormatado}</TrendValue>
           <TrendLabel>desde o mês passado</TrendLabel>
         </TrendContainer>
       )}
