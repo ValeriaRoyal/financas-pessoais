@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import Layout from './components/Layout';
@@ -31,19 +31,29 @@ const highContrastTheme = {
   border: '#ffffff',
 };
 
-// Página inicial temporária
+// Importações dos componentes
+import Dashboard from './components/Dashboard';
+import Transacoes from './components/Transacoes';
+import CartaoCredito from './components/CartaoCredito';
+
+// Página inicial com Dashboard
 const HomePage = () => (
-  <Layout title="Início">
-    <h2>Bem-vindo ao seu aplicativo de Finanças Pessoais</h2>
-    <p>Este aplicativo está sendo desenvolvido para ajudar você a gerenciar suas finanças pessoais de forma segura e acessível.</p>
-    <h3>Funcionalidades planejadas:</h3>
-    <ul>
-      <li>Controle de receitas e despesas</li>
-      <li>Categorização de transações</li>
-      <li>Relatórios e gráficos</li>
-      <li>Planejamento financeiro</li>
-      <li>Metas financeiras</li>
-    </ul>
+  <Layout title="Dashboard">
+    <Dashboard />
+  </Layout>
+);
+
+// Página de Transações
+const TransacoesPage = () => (
+  <Layout title="Transações">
+    <Transacoes />
+  </Layout>
+);
+
+// Página de Cartões de Crédito
+const CartoesPage = () => (
+  <Layout title="Cartões de Crédito">
+    <CartaoCredito />
   </Layout>
 );
 
@@ -91,6 +101,8 @@ const App: React.FC = () => {
         />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/transacoes" element={<TransacoesPage />} />
+          <Route path="/cartoes" element={<CartoesPage />} />
           {/* Adicione mais rotas conforme necessário */}
         </Routes>
       </Router>

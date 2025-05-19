@@ -1,0 +1,17 @@
+# Instruções para enviar o repositório para o GitHub
+
+Após criar o repositório no GitHub (https://github.com/new), execute os seguintes comandos:
+
+# Adicionar o repositório remoto (substitua 'SEU_USUARIO' pelo seu nome de usuário do GitHub)
+git remote add origin https://github.com/SEU_USUARIO/financas-pessoais.git
+
+# Enviar o código para o GitHub
+git push -u origin main
+
+# Se você estiver usando autenticação por token (recomendado), você precisará:
+# 1. Criar um token de acesso pessoal em https://github.com/settings/tokens
+# 2. Usar esse token como senha quando solicitado
+
+# Alternativa usando SSH (se você tiver configurado chaves SSH):
+git remote add origin git@github.com:SEU_USUARIO/financas-pessoais.git
+git push -u origin main
