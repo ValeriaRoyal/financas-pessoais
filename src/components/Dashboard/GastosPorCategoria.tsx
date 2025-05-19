@@ -43,6 +43,7 @@ const LegendText = styled.div`
 
 const CategoryName = styled.span`
   font-size: 0.9rem;
+  color: #333333; // Cor mais escura para melhor contraste
 `;
 
 const CategoryValue = styled.span`

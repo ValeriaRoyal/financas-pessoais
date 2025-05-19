@@ -194,7 +194,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   
   return (
     <>
-      <SidebarContainer $isOpen={isOpen}>
+      <SidebarContainer $isOpen={isOpen} role="navigation" aria-label="Menu principal">
         <SidebarHeader>
           <Logo>
             <LogoIcon>💰</LogoIcon>

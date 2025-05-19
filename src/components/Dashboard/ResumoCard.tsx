@@ -37,7 +37,7 @@ const CardHeader = styled.div`
 const CardTitle = styled.h3`
   margin: 0;
   font-size: 1rem;
-  color: var(--text-secondary);
+  color: #333333; // Cor mais escura para melhor contraste
   font-weight: 500;
 `;
 

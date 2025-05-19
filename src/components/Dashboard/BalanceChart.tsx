@@ -71,7 +71,7 @@ const Bar = styled.div<{ $height: string; $color: string }>`
 const BarLabel = styled.div`
   margin-top: var(--spacing-sm);
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: #333333; // Cor mais escura para melhor contraste
   text-align: center;
 `;
 

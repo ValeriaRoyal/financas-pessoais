@@ -237,18 +237,17 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
         <title>{title} | Finanças Pessoais</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <html lang="pt-BR" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </Helmet>
       
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       
-      <header>
+      <div className="skip-link-container" role="navigation" aria-label="Pular navegação">
         <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
-      </header>
+      </div>
       
       <Container>
-        <Header>
+        <Header role="banner" aria-label="Cabeçalho principal">
           <MenuButton onClick={toggleSidebar} aria-label="Abrir menu">
             ☰
           </MenuButton>
@@ -281,11 +280,11 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
           </HeaderContent>
         </Header>
         
-        <Main id="main-content">
+        <Main id="main-content" role="main" aria-label="Conteúdo principal">
           {children}
         </Main>
         
-        <Footer>
+        <Footer role="contentinfo" aria-label="Rodapé">
           <p>© {new Date().getFullYear()} Finanças Pessoais - Todos os direitos reservados</p>
         </Footer>
       </Container>

@@ -77,7 +77,7 @@ const DonutTotal = styled.div`
 
 const DonutLabel = styled.div`
   font-size: 0.8rem;
-  color: #666;
+  color: #333333; // Cor mais escura para melhor contraste
   text-align: center;
 `;
 
@@ -109,6 +109,7 @@ const LegendText = styled.div`
 
 const PaymentName = styled.span`
   font-size: 0.9rem;
+  color: #333333; // Cor mais escura para melhor contraste
 `;
 
 const PaymentValue = styled.span`
