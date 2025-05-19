@@ -69,6 +69,21 @@ const GlobalStyles = createGlobalStyle`
       font-size: 16px;
     }
   }
+  
+  @media (max-width: 320px) {
+    html {
+      font-size: 14px; /* Reduzir ligeiramente o tamanho da fonte base */
+    }
+    
+    :root {
+      --spacing-xs: 0.2rem;
+      --spacing-sm: 0.4rem;
+      --spacing-md: 0.75rem;
+      --spacing-lg: 1.25rem;
+      --spacing-xl: 1.5rem;
+      --spacing-xxl: 2rem;
+    }
+  }
 
   /* Esconder elementos visualmente, mas mantê-los acessíveis para leitores de tela */
   .sr-only {

@@ -20,6 +20,11 @@ const DonutChartContainer = styled.div`
   width: 200px;
   height: 200px;
   margin: 0 auto;
+  
+  @media (max-width: 320px) {
+    width: 160px;
+    height: 160px;
+  }
 `;
 
 const DonutChart = styled.div`

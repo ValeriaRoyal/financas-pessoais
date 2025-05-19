@@ -18,6 +18,10 @@ const DashboardContainer = styled.div`
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
   }
+  
+  @media (max-width: 320px) {
+    gap: var(--spacing-md);
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -37,6 +41,14 @@ const SectionTitle = styled.h2`
     background-color: var(--primary-color);
     border-radius: 2px;
   }
+  
+  @media (max-width: 320px) {
+    font-size: 1.1rem;
+    
+    &::before {
+      height: 16px;
+    }
+  }
 `;
 
 const GraficosContainer = styled.div`
@@ -47,6 +59,11 @@ const GraficosContainer = styled.div`
   
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 320px) {
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
   }
 `;
 
@@ -61,6 +78,10 @@ const FilterContainer = styled.div`
   margin-bottom: var(--spacing-lg);
   flex-wrap: wrap;
   gap: var(--spacing-md);
+  
+  @media (max-width: 320px) {
+    margin-bottom: var(--spacing-md);
+  }
 `;
 
 const FilterGroup = styled.div`
@@ -86,6 +107,11 @@ const FilterSelect = styled.select`
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.1);
+  }
+  
+  @media (max-width: 320px) {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
   }
 `;
 

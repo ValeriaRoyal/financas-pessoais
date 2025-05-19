@@ -32,6 +32,10 @@ const ChartContent = styled.div`
     flex-direction: row;
     align-items: center;
   }
+  
+  @media (max-width: 320px) {
+    gap: var(--spacing-sm);
+  }
 `;
 
 const ChartVisual = styled.div`
@@ -50,6 +54,10 @@ const BarContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
   gap: var(--spacing-lg);
+  
+  @media (max-width: 320px) {
+    gap: var(--spacing-md);
+  }
 `;
 
 const BarGroup = styled.div`
@@ -57,6 +65,10 @@ const BarGroup = styled.div`
   flex-direction: column;
   align-items: center;
   width: 80px;
+  
+  @media (max-width: 320px) {
+    width: 60px;
+  }
 `;
 
 const Bar = styled.div<{ $height: string; $color: string }>`
@@ -66,6 +78,10 @@ const Bar = styled.div<{ $height: string; $color: string }>`
   border-radius: 8px 8px 0 0;
   transition: height 0.5s ease;
   position: relative;
+  
+  @media (max-width: 320px) {
+    width: 60px;
+  }
 `;
 
 const BarLabel = styled.div`
@@ -80,6 +96,11 @@ const BarValue = styled.div`
   font-weight: 500;
   margin-top: var(--spacing-xs);
   color: var(--text-color);
+  
+  @media (max-width: 320px) {
+    font-size: 0.85rem;
+    word-break: break-word;
+  }
 `;
 
 const SummaryContainer = styled.div`

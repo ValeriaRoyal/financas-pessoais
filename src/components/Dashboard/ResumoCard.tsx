@@ -25,6 +25,10 @@ const CardContainer = styled.div`
     transform: translateY(-3px);
     box-shadow: var(--box-shadow-hover);
   }
+  
+  @media (max-width: 320px) {
+    padding: var(--spacing-md);
+  }
 `;
 
 const CardHeader = styled.div`
@@ -51,6 +55,13 @@ const IconContainer = styled.div<{ $corIcone: string }>`
   justify-content: center;
   color: ${props => props.$corIcone};
   font-size: 1.5rem;
+  
+  @media (max-width: 320px) {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    border-radius: 8px;
+  }
 `;
 
 const CardValue = styled.div`
@@ -58,6 +69,11 @@ const CardValue = styled.div`
   font-weight: 600;
   color: var(--text-color);
   margin-bottom: var(--spacing-sm);
+  
+  @media (max-width: 320px) {
+    font-size: 1.5rem;
+    word-break: break-word;
+  }
 `;
 
 const TrendContainer = styled.div`

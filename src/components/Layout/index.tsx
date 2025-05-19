@@ -18,6 +18,10 @@ const Container = styled.div`
     margin-left: 280px;
     padding: var(--spacing-xl);
   }
+  
+  @media (max-width: 320px) {
+    padding: var(--spacing-sm);
+  }
 `;
 
 const Header = styled.header`
@@ -38,6 +42,12 @@ const Header = styled.header`
     position: absolute;
     left: 0;
     top: 0;
+  }
+  
+  @media (max-width: 320px) {
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
   }
 `;
 
@@ -74,6 +84,10 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  
+  @media (max-width: 320px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const PageTitle = styled.h1`
@@ -84,6 +98,12 @@ const PageTitle = styled.h1`
   
   @media (min-width: 768px) {
     font-size: 1.75rem;
+  }
+  
+  @media (max-width: 320px) {
+    font-size: 1.25rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -125,6 +145,11 @@ const Main = styled.main`
   @media (min-width: 768px) {
     min-height: calc(100vh - 200px);
   }
+  
+  @media (max-width: 320px) {
+    padding: var(--spacing-md);
+    min-height: calc(100vh - 160px);
+  }
 `;
 
 const Footer = styled.footer`
@@ -153,6 +178,11 @@ const HeaderActions = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  
+  @media (max-width: 320px) {
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
 `;
 
 const ActionButton = styled.button`
@@ -177,6 +207,12 @@ const ActionButton = styled.button`
   &:focus {
     outline: 2px solid var(--primary-light);
     outline-offset: 2px;
+  }
+  
+  @media (max-width: 320px) {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
   }
 `;
 

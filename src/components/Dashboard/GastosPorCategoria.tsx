@@ -7,6 +7,10 @@ const ChartContainer = styled.div`
   border-radius: var(--border-radius);
   padding: 1.5rem;
   box-shadow: var(--box-shadow);
+  
+  @media (max-width: 320px) {
+    padding: 1rem;
+  }
 `;
 
 const ChartTitle = styled.h3`
