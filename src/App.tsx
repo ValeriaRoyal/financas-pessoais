@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import Transacoes from './components/Transacoes';
 import CartaoCredito from './components/CartaoCredito';
 import Configuracoes from './components/Configuracoes';
+import Notificacoes from './components/Notificacoes';
 
 // Temas para acessibilidade
 const lightTheme = {
@@ -52,6 +53,13 @@ const TransacoesPage = () => (
 const CartoesPage = () => (
   <Layout title="Cartões de Crédito">
     <CartaoCredito />
+  </Layout>
+);
+
+// Página de Notificações
+const NotificacoesPage = () => (
+  <Layout title="Notificações">
+    <Notificacoes />
   </Layout>
 );
 
@@ -124,6 +132,7 @@ const App: React.FC = () => {
           <Route path="/transacoes" element={<TransacoesPage />} />
           <Route path="/cartoes" element={<CartoesPage />} />
           <Route path="/configuracoes" element={<ConfiguracoesPage />} />
+          <Route path="/notificacoes" element={<NotificacoesPage />} />
           {/* Adicione mais rotas conforme necessário */}
         </Routes>
       </Router>

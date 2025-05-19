@@ -217,8 +217,10 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
                 🔍
               </ActionButton>
               <ActionButton aria-label="Notificações" style={{ position: 'relative' }}>
-                🔔
-                <NotificationBadge />
+                <Link to="/notificacoes" style={{ color: 'inherit', textDecoration: 'none' }}>
+                  🔔
+                  <NotificationBadge />
+                </Link>
               </ActionButton>
               <Navigation>
                 <NavLink to="/">Dashboard</NavLink>

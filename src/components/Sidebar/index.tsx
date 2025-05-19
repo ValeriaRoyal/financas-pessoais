@@ -270,6 +270,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             
             <NavSection>
               <SectionTitle>Análises</SectionTitle>
+              <NavItem to="/notificacoes" active={isActive('/notificacoes')}>
+                <IconContainer active={isActive('/notificacoes')}>🔔</IconContainer>
+                <NavText>Notificações</NavText>
+              </NavItem>
               <NavItem to="/relatorios" active={isActive('/relatorios')}>
                 <IconContainer active={isActive('/relatorios')}>📝</IconContainer>
                 <NavText>Relatórios</NavText>
