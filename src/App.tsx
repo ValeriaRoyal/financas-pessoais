@@ -3,22 +3,22 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import Layout from './components/Layout';
-import AccessibilityBar from './components/Accessibility';
 import Dashboard from './components/Dashboard';
 import Transacoes from './components/Transacoes';
 import CartaoCredito from './components/CartaoCredito';
+import Configuracoes from './components/Configuracoes';
 
 // Temas para acessibilidade
 const lightTheme = {
-  primary: '#2e7d32',
-  secondary: '#4caf50',
-  background: '#f5f5f5',
+  primary: '#6200ee',
+  secondary: '#03dac6',
+  background: '#f5f7fa',
   surface: '#ffffff',
   text: '#333333',
-  textSecondary: '#666666',
-  error: '#d32f2f',
-  success: '#388e3c',
-  border: '#dddddd',
+  textSecondary: '#757575',
+  error: '#b00020',
+  success: '#00c853',
+  border: '#e0e0e0',
 };
 
 // Tema de alto contraste para acessibilidade
@@ -61,6 +61,20 @@ const App: React.FC = () => {
   const [highContrast, setHighContrast] = useState(false);
   const [theme, setTheme] = useState(lightTheme);
   
+  // Carregar preferências salvas
+  useEffect(() => {
+    const savedFontSize = localStorage.getItem('accessibility_fontSize');
+    const savedContrast = localStorage.getItem('accessibility_highContrast');
+    
+    if (savedFontSize) {
+      setFontSize(savedFontSize as 'small' | 'medium' | 'large');
+    }
+    
+    if (savedContrast) {
+      setHighContrast(savedContrast === 'true');
+    }
+  }, []);
+  
   // Aplicar tamanho da fonte
   useEffect(() => {
     const htmlElement = document.documentElement;
@@ -89,18 +103,27 @@ const App: React.FC = () => {
     }
   }, [highContrast]);
   
+  // Página de Configurações
+  const ConfiguracoesPage = () => (
+    <Layout title="Configurações">
+      <Configuracoes 
+        onFontSizeChange={setFontSize}
+        onContrastChange={setHighContrast}
+        fontSize={fontSize}
+        highContrast={highContrast}
+      />
+    </Layout>
+  );
+  
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Router>
-        <AccessibilityBar 
-          onFontSizeChange={setFontSize}
-          onContrastChange={setHighContrast}
-        />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/transacoes" element={<TransacoesPage />} />
           <Route path="/cartoes" element={<CartoesPage />} />
+          <Route path="/configuracoes" element={<ConfiguracoesPage />} />
           {/* Adicione mais rotas conforme necessário */}
         </Routes>
       </Router>

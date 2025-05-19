@@ -224,6 +224,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
                 <NavLink to="/">Dashboard</NavLink>
                 <NavLink to="/transacoes">Transações</NavLink>
                 <NavLink to="/cartoes">Cartões</NavLink>
+                <NavLink to="/configuracoes">Configurações</NavLink>
               </Navigation>
             </HeaderActions>
           </HeaderContent>
