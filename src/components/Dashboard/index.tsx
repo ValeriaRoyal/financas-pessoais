@@ -4,6 +4,7 @@ import { ResumoFinanceiro } from '../../types';
 import ResumoCard from './ResumoCard';
 import GastosPorCategoria from './GastosPorCategoria';
 import GastosPorFormaPagamento from './GastosPorFormaPagamento';
+import BalanceChart from './BalanceChart';
 
 const DashboardContainer = styled.div`
   display: grid;
@@ -138,6 +139,14 @@ const Dashboard: React.FC = () => {
           </FilterSelect>
         </FilterGroup>
       </FilterContainer>
+      
+      <Section>
+        <BalanceChart 
+          totalReceitas={resumo.totalReceitas}
+          totalDespesas={resumo.totalDespesas}
+          saldo={resumo.saldo}
+        />
+      </Section>
       
       <Section>
         <DashboardContainer>

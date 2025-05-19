@@ -182,9 +182,6 @@ const SidebarFooter = styled.div`
   bottom: 0;
   width: 100%;
   background-color: var(--surface-color);
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
 `;
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
@@ -240,10 +237,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             
             <NavSection>
               <SectionTitle>Análises</SectionTitle>
-              <NavItem to="/notificacoes" active={isActive('/notificacoes')}>
-                <IconContainer active={isActive('/notificacoes')}>🔔</IconContainer>
-                <NavText>Notificações</NavText>
-              </NavItem>
               <NavItem to="/relatorios" active={isActive('/relatorios')}>
                 <IconContainer active={isActive('/relatorios')}>📝</IconContainer>
                 <NavText>Relatórios</NavText>
@@ -256,10 +249,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             
             <NavSection>
               <SectionTitle>Configurações</SectionTitle>
-              <NavItem to="/categorias" active={isActive('/categorias')}>
-                <IconContainer active={isActive('/categorias')}>🏷️</IconContainer>
-                <NavText>Categorias</NavText>
-              </NavItem>
               <NavItem to="/configuracoes" active={isActive('/configuracoes')}>
                 <IconContainer active={isActive('/configuracoes')}>⚙️</IconContainer>
                 <NavText>Configurações</NavText>
@@ -269,7 +258,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         </SidebarContent>
         
         <SidebarFooter>
-          © {new Date().getFullYear()} Finanças Pessoais
+          {/* Rodapé vazio */}
         </SidebarFooter>
       </SidebarContainer>
       
