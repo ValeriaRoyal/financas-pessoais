@@ -125,7 +125,7 @@ const Footer = styled.footer`
   text-align: center;
   margin-top: var(--spacing-lg);
   padding: var(--spacing-md);
-  color: var(--text-secondary);
+  color: #333333; // Cor mais escura para melhor contraste
   font-size: 0.9rem;
 `;
 
@@ -242,12 +242,12 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
       
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       
-      <div className="skip-link-container" role="navigation" aria-label="Pular navegação">
+      <div className="skip-link-container" aria-label="Pular navegação">
         <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
       </div>
       
       <Container>
-        <Header role="banner" aria-label="Cabeçalho principal">
+        <Header aria-label="Cabeçalho principal">
           <MenuButton onClick={toggleSidebar} aria-label="Abrir menu">
             ☰
           </MenuButton>
@@ -280,11 +280,11 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
           </HeaderContent>
         </Header>
         
-        <Main id="main-content" role="main" aria-label="Conteúdo principal">
+        <Main id="main-content" aria-label="Conteúdo principal">
           {children}
         </Main>
         
-        <Footer role="contentinfo" aria-label="Rodapé">
+        <Footer aria-label="Rodapé">
           <p>© {new Date().getFullYear()} Finanças Pessoais - Todos os direitos reservados</p>
         </Footer>
       </Container>
