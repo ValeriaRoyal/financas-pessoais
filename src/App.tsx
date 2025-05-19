@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import Layout from './components/Layout';
 import AccessibilityBar from './components/Accessibility';
+import Dashboard from './components/Dashboard';
+import Transacoes from './components/Transacoes';
+import CartaoCredito from './components/CartaoCredito';
 
 // Temas para acessibilidade
 const lightTheme = {
@@ -30,11 +33,6 @@ const highContrastTheme = {
   success: '#00ff00',
   border: '#ffffff',
 };
-
-// Importações dos componentes
-import Dashboard from './components/Dashboard';
-import Transacoes from './components/Transacoes';
-import CartaoCredito from './components/CartaoCredito';
 
 // Página inicial com Dashboard
 const HomePage = () => (
