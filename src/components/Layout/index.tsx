@@ -33,6 +33,12 @@ const Header = styled.header`
   position: sticky;
   top: var(--spacing-md);
   z-index: 10;
+  
+  .skip-link-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 `;
 
 const MenuButton = styled.button`
@@ -131,15 +137,15 @@ const Footer = styled.footer`
 
 const SkipLink = styled.a`
   position: absolute;
-  top: -40px;
-  left: 0;
+  top: 0;
+  left: -9999px;
   background: #4B0082; /* Cor mais escura para melhor contraste */
   color: white;
   padding: 8px;
   z-index: 100;
   
   &:focus {
-    top: 0;
+    left: 8px;
   }
 `;
 
@@ -242,12 +248,11 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
       
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       
-      <div className="skip-link-container" aria-label="Pular navegação">
-        <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
-      </div>
-      
       <Container>
         <Header aria-label="Cabeçalho principal">
+          <div className="skip-link-container" aria-label="Pular navegação">
+            <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
+          </div>
           <MenuButton onClick={toggleSidebar} aria-label="Abrir menu">
             ☰
           </MenuButton>
