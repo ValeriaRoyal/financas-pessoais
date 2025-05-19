@@ -182,38 +182,8 @@ const SidebarFooter = styled.div`
   bottom: 0;
   width: 100%;
   background-color: var(--surface-color);
-`;
-
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-`;
-
-const UserAvatar = styled.div`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--primary-light);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-`;
-
-const UserDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const UserName = styled.span`
-  font-weight: 500;
-  font-size: 0.9rem;
-`;
-
-const UserRole = styled.span`
-  font-size: 0.75rem;
+  text-align: center;
+  font-size: 0.8rem;
   color: var(--text-secondary);
 `;
 
@@ -299,13 +269,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         </SidebarContent>
         
         <SidebarFooter>
-          <UserInfo>
-            <UserAvatar>VP</UserAvatar>
-            <UserDetails>
-              <UserName>Valeria</UserName>
-              <UserRole>Usuário</UserRole>
-            </UserDetails>
-          </UserInfo>
+          © {new Date().getFullYear()} Finanças Pessoais
         </SidebarFooter>
       </SidebarContainer>
       

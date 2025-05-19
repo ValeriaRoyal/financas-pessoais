@@ -184,6 +184,46 @@ const NotificationBadge = styled.span`
   border-radius: 50%;
 `;
 
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const UserAvatar = styled.div`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+`;
+
+const UserDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const UserName = styled.span`
+  font-weight: 500;
+  font-size: 0.9rem;
+`;
+
+const UserRole = styled.span`
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+`;
+
 const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicativo de finanças pessoais' }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
@@ -228,6 +268,13 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description = 'Aplicat
                 <NavLink to="/cartoes">Cartões</NavLink>
                 <NavLink to="/configuracoes">Configurações</NavLink>
               </Navigation>
+              <UserInfo>
+                <UserAvatar>VP</UserAvatar>
+                <UserDetails>
+                  <UserName>Valeria</UserName>
+                  <UserRole>Usuário</UserRole>
+                </UserDetails>
+              </UserInfo>
             </HeaderActions>
           </HeaderContent>
         </Header>
