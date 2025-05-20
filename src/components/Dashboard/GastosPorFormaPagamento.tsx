@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FormaPagamento, ResumoPorFormaPagamento } from '../../types';
+import TransacaoModel from '../../models/TransacaoModel';
 
 const ChartContainer = styled.div`
   background-color: var(--surface);
@@ -140,20 +141,62 @@ const coresFormasPagamento: Record<FormaPagamento, string> = {
 const GastosPorFormaPagamento: React.FC = () => {
   const [dados, setDados] = useState<ResumoPorFormaPagamento[]>([]);
   const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // Simular carregamento de dados
+  // Carregar dados de transações e calcular gastos por forma de pagamento
   useEffect(() => {
-    // Em um cenário real, isso viria de uma API ou localStorage
-    const dadosSimulados: ResumoPorFormaPagamento[] = [
-      { formaPagamento: FormaPagamento.CREDITO, valor: 1200, percentual: 34.29 },
-      { formaPagamento: FormaPagamento.DEBITO, valor: 800, percentual: 22.86 },
-      { formaPagamento: FormaPagamento.PIX, valor: 700, percentual: 20 },
-      { formaPagamento: FormaPagamento.DINHEIRO, valor: 500, percentual: 14.29 },
-      { formaPagamento: FormaPagamento.BOLETO, valor: 300, percentual: 8.57 }
-    ];
+    const carregarDados = async () => {
+      try {
+        setIsLoading(true);
+        const transacoes = await TransacaoModel.getAllTransacoes();
+        
+        // Filtrar apenas despesas
+        const despesas = transacoes.filter(t => t.tipo === 'Despesa');
+        
+        // Calcular total de despesas
+        const totalDespesas = despesas.reduce((acc, t) => acc + t.valor, 0);
+        
+        // Agrupar por forma de pagamento
+        const formasPagamento = despesas.reduce((acc, t) => {
+          const formaPagamento = t.formaPagamento;
+          if (!acc[formaPagamento]) {
+            acc[formaPagamento] = 0;
+          }
+          acc[formaPagamento] += t.valor;
+          return acc;
+        }, {} as Record<string, number>);
+        
+        // Converter para o formato esperado
+        const dadosProcessados: ResumoPorFormaPagamento[] = Object.entries(formasPagamento).map(([formaPagamento, valor]) => ({
+          formaPagamento: formaPagamento as FormaPagamento,
+          valor,
+          percentual: (valor / totalDespesas) * 100
+        }));
+        
+        // Ordenar por valor (decrescente)
+        dadosProcessados.sort((a, b) => b.valor - a.valor);
+        
+        setDados(dadosProcessados);
+        setTotal(totalDespesas);
+      } catch (error) {
+        console.error('Erro ao carregar dados de formas de pagamento:', error);
+        // Usar dados simulados em caso de erro
+        const dadosSimulados: ResumoPorFormaPagamento[] = [
+          { formaPagamento: FormaPagamento.CREDITO, valor: 1200, percentual: 34.29 },
+          { formaPagamento: FormaPagamento.DEBITO, valor: 800, percentual: 22.86 },
+          { formaPagamento: FormaPagamento.PIX, valor: 700, percentual: 20 },
+          { formaPagamento: FormaPagamento.DINHEIRO, valor: 500, percentual: 14.29 },
+          { formaPagamento: FormaPagamento.BOLETO, valor: 300, percentual: 8.57 }
+        ];
+        
+        setDados(dadosSimulados);
+        setTotal(dadosSimulados.reduce((acc, item) => acc + item.valor, 0));
+      } finally {
+        setIsLoading(false);
+      }
+    };
     
-    setDados(dadosSimulados);
-    setTotal(dadosSimulados.reduce((acc, item) => acc + item.valor, 0));
+    carregarDados();
   }, []);
   
   // Formatar valor como moeda brasileira

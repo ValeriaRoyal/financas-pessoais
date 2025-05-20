@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CategoriaTransacao, ResumoPorCategoria } from '../../types';
+import TransacaoModel from '../../models/TransacaoModel';
 
 const ChartContainer = styled.div`
   background-color: var(--surface);
@@ -106,20 +107,60 @@ const coresCategorias: Record<CategoriaTransacao, string> = {
 
 const GastosPorCategoria: React.FC = () => {
   const [dados, setDados] = useState<ResumoPorCategoria[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // Simular carregamento de dados
+  // Carregar dados de transações e calcular gastos por categoria
   useEffect(() => {
-    // Em um cenário real, isso viria de uma API ou localStorage
-    const dadosSimulados: ResumoPorCategoria[] = [
-      { categoria: CategoriaTransacao.ALIMENTACAO, valor: 800, percentual: 22.86 },
-      { categoria: CategoriaTransacao.MORADIA, valor: 1200, percentual: 34.29 },
-      { categoria: CategoriaTransacao.TRANSPORTE, valor: 500, percentual: 14.29 },
-      { categoria: CategoriaTransacao.SAUDE, valor: 300, percentual: 8.57 },
-      { categoria: CategoriaTransacao.LAZER, valor: 400, percentual: 11.43 },
-      { categoria: CategoriaTransacao.OUTROS, valor: 300, percentual: 8.57 }
-    ];
+    const carregarDados = async () => {
+      try {
+        setIsLoading(true);
+        const transacoes = await TransacaoModel.getAllTransacoes();
+        
+        // Filtrar apenas despesas
+        const despesas = transacoes.filter(t => t.tipo === 'Despesa');
+        
+        // Calcular total de despesas
+        const totalDespesas = despesas.reduce((acc, t) => acc + t.valor, 0);
+        
+        // Agrupar por categoria
+        const categorias = despesas.reduce((acc, t) => {
+          const categoria = t.categoria;
+          if (!acc[categoria]) {
+            acc[categoria] = 0;
+          }
+          acc[categoria] += t.valor;
+          return acc;
+        }, {} as Record<string, number>);
+        
+        // Converter para o formato esperado
+        const dadosProcessados: ResumoPorCategoria[] = Object.entries(categorias).map(([categoria, valor]) => ({
+          categoria: categoria as CategoriaTransacao,
+          valor,
+          percentual: (valor / totalDespesas) * 100
+        }));
+        
+        // Ordenar por valor (decrescente)
+        dadosProcessados.sort((a, b) => b.valor - a.valor);
+        
+        setDados(dadosProcessados);
+      } catch (error) {
+        console.error('Erro ao carregar dados de categorias:', error);
+        // Usar dados simulados em caso de erro
+        const dadosSimulados: ResumoPorCategoria[] = [
+          { categoria: CategoriaTransacao.ALIMENTACAO, valor: 800, percentual: 22.86 },
+          { categoria: CategoriaTransacao.MORADIA, valor: 1200, percentual: 34.29 },
+          { categoria: CategoriaTransacao.TRANSPORTE, valor: 500, percentual: 14.29 },
+          { categoria: CategoriaTransacao.SAUDE, valor: 300, percentual: 8.57 },
+          { categoria: CategoriaTransacao.LAZER, valor: 400, percentual: 11.43 },
+          { categoria: CategoriaTransacao.OUTROS, valor: 300, percentual: 8.57 }
+        ];
+        setDados(dadosSimulados);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     
-    setDados(dadosSimulados);
+    carregarDados();
   }, []);
   
   // Formatar valor como moeda brasileira

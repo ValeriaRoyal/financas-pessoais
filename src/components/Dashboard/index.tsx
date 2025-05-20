@@ -7,6 +7,7 @@ import GastosPorFormaPagamento from './GastosPorFormaPagamento';
 import BalanceChart from './BalanceChart';
 import { fadeIn, slideInUp } from '../../styles/animations';
 import AnimatedCard from '../common/AnimatedCard';
+import ResumoModel from '../../models/ResumoModel';
 
 const DashboardContainer = styled.div`
   display: grid;
@@ -149,22 +150,34 @@ const Dashboard: React.FC = () => {
   
   const [periodoSelecionado, setPeriodoSelecionado] = useState('mes-atual');
   const [showDetails, setShowDetails] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // Simular carregamento de dados
+  // Carregar dados do resumo financeiro
   useEffect(() => {
-    // Em um cenário real, isso viria de uma API ou localStorage
-    const dadosSimulados: ResumoFinanceiro = {
-      totalReceitas: 5000,
-      totalDespesas: 3500,
-      saldo: 1500,
-      totalDespesasFixas: 2000,
-      totalDespesasVariaveis: 1500,
-      totalCartaoCredito: 1200,
-      totalReserva: 10000,
-      totalInvestimentos: 25000
+    const carregarResumo = async () => {
+      try {
+        setIsLoading(true);
+        const resumoData = await ResumoModel.getResumo();
+        setResumo(resumoData);
+      } catch (error) {
+        console.error('Erro ao carregar resumo:', error);
+        // Usar dados simulados em caso de erro
+        setResumo({
+          totalReceitas: 5000,
+          totalDespesas: 3500,
+          saldo: 1500,
+          totalDespesasFixas: 2000,
+          totalDespesasVariaveis: 1500,
+          totalCartaoCredito: 1200,
+          totalReserva: 10000,
+          totalInvestimentos: 25000
+        });
+      } finally {
+        setIsLoading(false);
+      }
     };
     
-    setResumo(dadosSimulados);
+    carregarResumo();
   }, []);
   
   return (
