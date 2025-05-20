@@ -33,6 +33,26 @@ export enum FormaPagamento {
 }
 
 /**
+ * Enum para tipos de transação.
+ * 
+ * @enum {string}
+ */
+export enum TipoTransacao {
+  RECEITA = 'Receita',
+  DESPESA = 'Despesa'
+}
+
+/**
+ * Enum para tipos de despesa.
+ * 
+ * @enum {string}
+ */
+export enum TipoDespesa {
+  FIXA = 'Fixa',
+  VARIAVEL = 'Variável'
+}
+
+/**
  * Interface para transações financeiras.
  * 
  * @interface Transacao
@@ -42,15 +62,17 @@ export interface Transacao {
   descricao: string;
   valor: number;
   data: string;
-  tipo: 'Receita' | 'Despesa';
-  categoria: string;
-  formaPagamento: string;
-  tipoDespesa?: 'Fixa' | 'Variável';
+  tipo: TipoTransacao | string;
+  categoria: CategoriaTransacao | string;
+  formaPagamento: FormaPagamento | string;
+  tipoDespesa?: TipoDespesa | string;
   cartaoId?: string;
   recorrente: boolean;
   parcelado: boolean;
   numeroParcelas?: number;
   parcelaAtual?: number;
+  parcelas?: number; // Adicionado para compatibilidade
+  observacoes?: string; // Adicionado para compatibilidade
 }
 
 /**
