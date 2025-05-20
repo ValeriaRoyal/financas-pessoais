@@ -51,6 +51,7 @@ const OptionDescription = styled.p`
   color: var(--textSecondary);
   font-size: 0.9rem;
   margin-bottom: var(--spacing-sm);
+  font-weight: 500; /* Adicionado para melhorar legibilidade */
 `;
 
 const ThemeSelector = styled.div`

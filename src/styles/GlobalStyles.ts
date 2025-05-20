@@ -161,10 +161,22 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   
-  /* Estilos específicos para tema escuro */
+  /* Melhorias de contraste para tema escuro */
   .dark-theme {
     --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     --box-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Melhorias específicas para legibilidade no tema escuro */
+  .dark-theme p, .dark-theme label, .dark-theme span {
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Tema de alto contraste */
+  .high-contrast-theme {
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    --box-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.7);
   }
   
   /* Transições suaves para mudanças de tema */
