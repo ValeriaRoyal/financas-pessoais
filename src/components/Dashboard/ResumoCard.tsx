@@ -89,10 +89,10 @@ const TendenciaValor = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
     switch (props.$tendencia) {
       case 'up': return 'var(--success)';
       case 'down': return 'var(--error)';
-      default: return 'var(--textSecondary)';
+      default: return 'var(--textPrimary)';
     }
   }};
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
@@ -105,7 +105,7 @@ const TendenciaIcone = styled.span`
 const TendenciaTexto = styled.span`
   color: var(--textPrimary);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const formatarMoeda = (valor: number) => {

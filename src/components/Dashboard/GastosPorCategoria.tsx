@@ -48,7 +48,7 @@ const LegendText = styled.div`
 const CategoryName = styled.span`
   font-size: 0.9rem;
   color: var(--textPrimary);
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const CategoryValue = styled.span`

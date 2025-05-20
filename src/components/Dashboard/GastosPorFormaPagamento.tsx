@@ -83,9 +83,9 @@ const DonutTotal = styled.div`
 
 const DonutLabel = styled.div`
   font-size: 0.8rem;
-  color: var(--textSecondary);
+  color: var(--textPrimary);
   text-align: center;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const ChartLegend = styled.div`
@@ -117,7 +117,7 @@ const LegendText = styled.div`
 const PaymentName = styled.span`
   font-size: 0.9rem;
   color: var(--textPrimary);
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const PaymentValue = styled.span`

@@ -71,6 +71,8 @@ const GlobalStyles = createGlobalStyle`
   
   p {
     margin-bottom: 1rem;
+    color: var(--textPrimary);
+    font-weight: 500;
   }
   
   a {
