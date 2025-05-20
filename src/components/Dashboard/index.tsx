@@ -5,6 +5,7 @@ import ResumoCard from './ResumoCard';
 import GastosPorCategoria from './GastosPorCategoria';
 import GastosPorFormaPagamento from './GastosPorFormaPagamento';
 import BalanceChart from './BalanceChart';
+import BalancoPorTipo from './BalancoPorTipo';
 import { fadeIn, slideInUp } from '../../styles/animations';
 import AnimatedCard from '../common/AnimatedCard';
 
@@ -274,6 +275,12 @@ const Dashboard: React.FC = () => {
           </AnimatedCard>
           <AnimatedCard>
             <GastosPorFormaPagamento />
+          </AnimatedCard>
+          <AnimatedCard>
+            <BalancoPorTipo 
+              totalReceitas={resumo.totalReceitas}
+              totalDespesas={resumo.totalDespesas}
+            />
           </AnimatedCard>
         </GraficosContainer>
       </Section>
