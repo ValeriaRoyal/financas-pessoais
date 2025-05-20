@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
+import BalanceLineChart from './BalanceLineChart';
 
 interface BalanceChartProps {
   totalReceitas: number;
@@ -174,53 +175,58 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
   const getSaidaColor = () => theme.name === 'dark' ? '#ff6666' : '#8B0000';
   
   return (
-    <ChartContainer>
-      <ChartTitle>Balanço Financeiro</ChartTitle>
-      
-      <ChartContent>
-        <ChartVisual>
-          <BarContainer>
-            <BarGroup>
-              <Bar $height={receitasHeight} $color={getEntradaColor()} />
-              <BarLabel>Entradas</BarLabel>
-              <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
-            </BarGroup>
-            
-            <BarGroup>
-              <Bar $height={despesasHeight} $color={getSaidaColor()} />
-              <BarLabel>Saídas</BarLabel>
-              <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
-            </BarGroup>
-          </BarContainer>
-        </ChartVisual>
+    <>
+      <ChartContainer>
+        <ChartTitle>Balanço Financeiro</ChartTitle>
         
-        <SummaryContainer>
-          <SummaryItem>
-            <SummaryLabel>Total de Entradas</SummaryLabel>
-            <SummaryValue $color={getEntradaColor()}>{formatarMoeda(totalReceitas)}</SummaryValue>
-          </SummaryItem>
+        <ChartContent>
+          <ChartVisual>
+            <BarContainer>
+              <BarGroup>
+                <Bar $height={receitasHeight} $color={getEntradaColor()} />
+                <BarLabel>Entradas</BarLabel>
+                <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
+              </BarGroup>
+              
+              <BarGroup>
+                <Bar $height={despesasHeight} $color={getSaidaColor()} />
+                <BarLabel>Saídas</BarLabel>
+                <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
+              </BarGroup>
+            </BarContainer>
+          </ChartVisual>
           
-          <SummaryItem>
-            <SummaryLabel>Total de Saídas</SummaryLabel>
-            <SummaryValue $color={getSaidaColor()}>{formatarMoeda(totalDespesas)}</SummaryValue>
-          </SummaryItem>
-          
-          <SummaryDivider />
-          
-          <SummaryItem>
-            <SummaryLabel>Saldo</SummaryLabel>
-            <SummaryValue $color={getSaldoColor()}>{formatarMoeda(saldo)}</SummaryValue>
-          </SummaryItem>
-          
-          <SummaryItem>
-            <SummaryLabel>Percentual de Gastos</SummaryLabel>
-            <SummaryValue>
-              {totalReceitas > 0 ? `${Math.round((totalDespesas / totalReceitas) * 100)}%` : '0%'}
-            </SummaryValue>
-          </SummaryItem>
-        </SummaryContainer>
-      </ChartContent>
-    </ChartContainer>
+          <SummaryContainer>
+            <SummaryItem>
+              <SummaryLabel>Total de Entradas</SummaryLabel>
+              <SummaryValue $color={getEntradaColor()}>{formatarMoeda(totalReceitas)}</SummaryValue>
+            </SummaryItem>
+            
+            <SummaryItem>
+              <SummaryLabel>Total de Saídas</SummaryLabel>
+              <SummaryValue $color={getSaidaColor()}>{formatarMoeda(totalDespesas)}</SummaryValue>
+            </SummaryItem>
+            
+            <SummaryDivider />
+            
+            <SummaryItem>
+              <SummaryLabel>Saldo</SummaryLabel>
+              <SummaryValue $color={getSaldoColor()}>{formatarMoeda(saldo)}</SummaryValue>
+            </SummaryItem>
+            
+            <SummaryItem>
+              <SummaryLabel>Percentual de Gastos</SummaryLabel>
+              <SummaryValue>
+                {totalReceitas > 0 ? `${Math.round((totalDespesas / totalReceitas) * 100)}%` : '0%'}
+              </SummaryValue>
+            </SummaryItem>
+          </SummaryContainer>
+        </ChartContent>
+      </ChartContainer>
+      
+      {/* Gráfico de linha para mostrar evolução ao longo do tempo */}
+      <BalanceLineChart totalReceitas={totalReceitas} totalDespesas={totalDespesas} />
+    </>
   );
 };
 
