@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme, ThemeName } from '../../contexts/ThemeContext';
 import { fadeIn, slideInUp } from '../../styles/animations';
+import AnimatedButton from '../../components/common/AnimatedButton';
 
 const ConfigContainer = styled.div`
   animation: ${fadeIn} 0.5s ease;
@@ -56,9 +57,10 @@ const ThemeSelector = styled.div`
   display: flex;
   gap: var(--spacing-md);
   margin-top: var(--spacing-sm);
+  flex-wrap: wrap;
 `;
 
-const ThemeOption = styled.div<{ $active: boolean; $themeType: 'light' | 'dark' }>`
+const ThemeOption = styled.div<{ $active: boolean; $themeType: ThemeName }>`
   width: 100px;
   height: 70px;
   border-radius: var(--border-radius);
@@ -67,7 +69,15 @@ const ThemeOption = styled.div<{ $active: boolean; $themeType: 'light' | 'dark' 
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
   
-  background-color: ${props => props.$themeType === 'light' ? '#f5f7fa' : '#121212'};
+  background-color: ${props => {
+    switch(props.$themeType) {
+      case 'dark': return '#121212';
+      case 'high-contrast': return '#000000';
+      case 'system': return 'linear-gradient(to right, #f5f7fa 50%, #121212 50%)';
+      default: return '#f5f7fa';
+    }
+  }};
+  
   border: 2px solid ${props => props.$active ? 'var(--primary)' : 'var(--border)'};
   
   &:hover {
@@ -83,7 +93,14 @@ const ThemeOption = styled.div<{ $active: boolean; $themeType: 'light' | 'dark' 
     right: 10px;
     height: 10px;
     border-radius: 5px;
-    background-color: ${props => props.$themeType === 'light' ? '#6200ee' : '#bb86fc'};
+    background-color: ${props => {
+      switch(props.$themeType) {
+        case 'dark': return '#bb86fc';
+        case 'high-contrast': return '#ffff00';
+        case 'system': return 'linear-gradient(to right, #6200ee 50%, #bb86fc 50%)';
+        default: return '#6200ee';
+      }
+    }};
   }
   
   &::before {
@@ -94,16 +111,23 @@ const ThemeOption = styled.div<{ $active: boolean; $themeType: 'light' | 'dark' 
     width: 50%;
     height: 10px;
     border-radius: 5px;
-    background-color: ${props => props.$themeType === 'light' ? '#333333' : '#ffffff'};
+    background-color: ${props => {
+      switch(props.$themeType) {
+        case 'dark': return '#ffffff';
+        case 'high-contrast': return '#ffffff';
+        case 'system': return 'linear-gradient(to right, #333333 50%, #ffffff 50%)';
+        default: return '#333333';
+      }
+    }};
     opacity: 0.7;
   }
 `;
 
-const ThemeLabel = styled.div<{ $themeType: 'light' | 'dark' }>`
+const ThemeLabel = styled.div<{ $themeType: ThemeName }>`
   text-align: center;
   margin-top: var(--spacing-xs);
   font-size: 0.9rem;
-  color: ${props => props.$themeType === 'light' ? 'var(--textPrimary)' : '#ffffff'};
+  color: var(--textPrimary);
 `;
 
 const Switch = styled.label`
@@ -155,23 +179,8 @@ const Slider = styled.span`
   }
 `;
 
-const Button = styled.button`
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--border-radius);
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  
-  &:hover {
-    background-color: var(--primaryDark);
-  }
-  
-  &:active {
-    transform: scale(0.98);
-  }
+const Button = styled(AnimatedButton)`
+  margin-top: var(--spacing-md);
 `;
 
 const SuccessMessage = styled.div`
@@ -183,20 +192,115 @@ const SuccessMessage = styled.div`
   animation: ${fadeIn} 0.3s ease;
 `;
 
+const RadioGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+`;
+
+const RadioOption = styled.label`
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  padding: var(--spacing-xs) 0;
+  
+  &:hover {
+    color: var(--primary);
+  }
+`;
+
+const RadioInput = styled.input`
+  margin: 0;
+  cursor: pointer;
+`;
+
 const Configuracoes: React.FC = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, themeName, setTheme } = useTheme();
   const [notificacoesAtivas, setNotificacoesAtivas] = useState(true);
   const [lembretesVencimento, setLembretesVencimento] = useState(3);
+  const [modoAutomatico, setModoAutomatico] = useState(false);
+  const [horaInicioEscuro, setHoraInicioEscuro] = useState('20:00');
+  const [horaFimEscuro, setHoraFimEscuro] = useState('06:00');
   const [showSuccess, setShowSuccess] = useState(false);
   
-  const handleThemeChange = (newTheme: 'light' | 'dark') => {
-    setTheme(newTheme);
-  };
+  // Carregar configurações salvas
+  useEffect(() => {
+    const savedNotificacoes = localStorage.getItem('notificacoesAtivas');
+    if (savedNotificacoes) {
+      setNotificacoesAtivas(JSON.parse(savedNotificacoes));
+    }
+    
+    const savedLembretes = localStorage.getItem('lembretesVencimento');
+    if (savedLembretes) {
+      setLembretesVencimento(Number(savedLembretes));
+    }
+    
+    const savedModoAutomatico = localStorage.getItem('modoAutomatico');
+    if (savedModoAutomatico) {
+      setModoAutomatico(JSON.parse(savedModoAutomatico));
+    }
+    
+    const savedHoraInicio = localStorage.getItem('horaInicioEscuro');
+    if (savedHoraInicio) {
+      setHoraInicioEscuro(savedHoraInicio);
+    }
+    
+    const savedHoraFim = localStorage.getItem('horaFimEscuro');
+    if (savedHoraFim) {
+      setHoraFimEscuro(savedHoraFim);
+    }
+  }, []);
+  
+  // Aplicar modo automático se estiver ativado
+  useEffect(() => {
+    if (modoAutomatico) {
+      const checkTime = () => {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+        const currentTime = currentHour * 60 + currentMinute;
+        
+        const [startHour, startMinute] = horaInicioEscuro.split(':').map(Number);
+        const [endHour, endMinute] = horaFimEscuro.split(':').map(Number);
+        
+        const startTime = startHour * 60 + startMinute;
+        const endTime = endHour * 60 + endMinute;
+        
+        // Verificar se estamos no período noturno
+        let isDarkTime;
+        if (startTime > endTime) {
+          // Período noturno cruza a meia-noite
+          isDarkTime = currentTime >= startTime || currentTime <= endTime;
+        } else {
+          // Período noturno no mesmo dia
+          isDarkTime = currentTime >= startTime && currentTime <= endTime;
+        }
+        
+        // Aplicar tema apropriado
+        if (isDarkTime && themeName !== 'dark') {
+          setTheme('dark');
+        } else if (!isDarkTime && themeName !== 'light') {
+          setTheme('light');
+        }
+      };
+      
+      // Verificar imediatamente e depois a cada minuto
+      checkTime();
+      const interval = setInterval(checkTime, 60000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [modoAutomatico, horaInicioEscuro, horaFimEscuro, themeName, setTheme]);
   
   const handleSaveSettings = () => {
-    // Aqui você salvaria as configurações em uma API ou localStorage
+    // Salvar configurações
     localStorage.setItem('notificacoesAtivas', JSON.stringify(notificacoesAtivas));
     localStorage.setItem('lembretesVencimento', lembretesVencimento.toString());
+    localStorage.setItem('modoAutomatico', JSON.stringify(modoAutomatico));
+    localStorage.setItem('horaInicioEscuro', horaInicioEscuro);
+    localStorage.setItem('horaFimEscuro', horaFimEscuro);
     
     // Mostrar mensagem de sucesso
     setShowSuccess(true);
@@ -215,28 +319,105 @@ const Configuracoes: React.FC = () => {
         <OptionGroup>
           <OptionLabel>Tema</OptionLabel>
           <OptionDescription>
-            Escolha entre o tema claro e escuro para a interface do aplicativo.
+            Escolha entre os temas disponíveis para a interface do aplicativo.
           </OptionDescription>
           
           <ThemeSelector>
             <div>
               <ThemeOption 
-                $active={theme.name === 'light'} 
+                $active={themeName === 'light'} 
                 $themeType="light"
-                onClick={() => handleThemeChange('light')}
+                onClick={() => setTheme('light')}
               />
               <ThemeLabel $themeType="light">Claro</ThemeLabel>
             </div>
             
             <div>
               <ThemeOption 
-                $active={theme.name === 'dark'} 
+                $active={themeName === 'dark'} 
                 $themeType="dark"
-                onClick={() => handleThemeChange('dark')}
+                onClick={() => setTheme('dark')}
               />
               <ThemeLabel $themeType="dark">Escuro</ThemeLabel>
             </div>
+            
+            <div>
+              <ThemeOption 
+                $active={themeName === 'high-contrast'} 
+                $themeType="high-contrast"
+                onClick={() => setTheme('high-contrast')}
+              />
+              <ThemeLabel $themeType="high-contrast">Alto Contraste</ThemeLabel>
+            </div>
+            
+            <div>
+              <ThemeOption 
+                $active={themeName === 'system'} 
+                $themeType="system"
+                onClick={() => setTheme('system')}
+              />
+              <ThemeLabel $themeType="system">Sistema</ThemeLabel>
+            </div>
           </ThemeSelector>
+        </OptionGroup>
+        
+        <OptionGroup>
+          <OptionLabel>Modo Automático</OptionLabel>
+          <OptionDescription>
+            Alternar automaticamente entre os temas claro e escuro com base no horário.
+          </OptionDescription>
+          
+          <Switch>
+            <SwitchInput 
+              type="checkbox" 
+              checked={modoAutomatico}
+              onChange={(e) => setModoAutomatico(e.target.checked)}
+            />
+            <Slider />
+          </Switch>
+          
+          {modoAutomatico && (
+            <div style={{ marginTop: 'var(--spacing-md)' }}>
+              <div style={{ display: 'flex', gap: 'var(--spacing-md)', flexWrap: 'wrap' }}>
+                <div>
+                  <OptionLabel htmlFor="horaInicioEscuro">Início do modo escuro</OptionLabel>
+                  <input 
+                    type="time" 
+                    id="horaInicioEscuro" 
+                    value={horaInicioEscuro}
+                    onChange={(e) => setHoraInicioEscuro(e.target.value)}
+                    style={{ 
+                      padding: '0.5rem', 
+                      borderRadius: 'var(--border-radius-sm)',
+                      border: '1px solid var(--border)',
+                      backgroundColor: 'var(--surface)',
+                      color: 'var(--textPrimary)'
+                    }}
+                  />
+                </div>
+                
+                <div>
+                  <OptionLabel htmlFor="horaFimEscuro">Fim do modo escuro</OptionLabel>
+                  <input 
+                    type="time" 
+                    id="horaFimEscuro" 
+                    value={horaFimEscuro}
+                    onChange={(e) => setHoraFimEscuro(e.target.value)}
+                    style={{ 
+                      padding: '0.5rem', 
+                      borderRadius: 'var(--border-radius-sm)',
+                      border: '1px solid var(--border)',
+                      backgroundColor: 'var(--surface)',
+                      color: 'var(--textPrimary)'
+                    }}
+                  />
+                </div>
+              </div>
+              <OptionDescription style={{ marginTop: 'var(--spacing-xs)' }}>
+                O modo escuro será ativado automaticamente entre {horaInicioEscuro} e {horaFimEscuro}.
+              </OptionDescription>
+            </div>
+          )}
         </OptionGroup>
       </Section>
       
@@ -259,35 +440,63 @@ const Configuracoes: React.FC = () => {
           </Switch>
         </OptionGroup>
         
-        <OptionGroup>
-          <OptionLabel htmlFor="lembretesVencimento">
-            Lembretes de vencimento (dias antes)
-          </OptionLabel>
-          <OptionDescription>
-            Quantos dias antes você deseja ser lembrado sobre contas a vencer.
-          </OptionDescription>
-          
-          <select 
-            id="lembretesVencimento"
-            value={lembretesVencimento}
-            onChange={(e) => setLembretesVencimento(Number(e.target.value))}
-            style={{ 
-              padding: '0.5rem', 
-              borderRadius: 'var(--border-radius-sm)',
-              border: '1px solid var(--border)',
-              backgroundColor: 'var(--surface)',
-              color: 'var(--textPrimary)'
-            }}
-          >
-            <option value={1}>1 dia antes</option>
-            <option value={3}>3 dias antes</option>
-            <option value={5}>5 dias antes</option>
-            <option value={7}>7 dias antes</option>
-          </select>
-        </OptionGroup>
+        {notificacoesAtivas && (
+          <OptionGroup>
+            <OptionLabel>Lembretes de vencimento</OptionLabel>
+            <OptionDescription>
+              Quantos dias antes você deseja ser lembrado sobre contas a vencer.
+            </OptionDescription>
+            
+            <RadioGroup>
+              <RadioOption>
+                <RadioInput 
+                  type="radio" 
+                  name="lembretes" 
+                  value={1} 
+                  checked={lembretesVencimento === 1}
+                  onChange={() => setLembretesVencimento(1)}
+                />
+                1 dia antes
+              </RadioOption>
+              
+              <RadioOption>
+                <RadioInput 
+                  type="radio" 
+                  name="lembretes" 
+                  value={3} 
+                  checked={lembretesVencimento === 3}
+                  onChange={() => setLembretesVencimento(3)}
+                />
+                3 dias antes
+              </RadioOption>
+              
+              <RadioOption>
+                <RadioInput 
+                  type="radio" 
+                  name="lembretes" 
+                  value={5} 
+                  checked={lembretesVencimento === 5}
+                  onChange={() => setLembretesVencimento(5)}
+                />
+                5 dias antes
+              </RadioOption>
+              
+              <RadioOption>
+                <RadioInput 
+                  type="radio" 
+                  name="lembretes" 
+                  value={7} 
+                  checked={lembretesVencimento === 7}
+                  onChange={() => setLembretesVencimento(7)}
+                />
+                7 dias antes
+              </RadioOption>
+            </RadioGroup>
+          </OptionGroup>
+        )}
       </Section>
       
-      <Button onClick={handleSaveSettings}>
+      <Button $primary onClick={handleSaveSettings}>
         Salvar Configurações
       </Button>
       
