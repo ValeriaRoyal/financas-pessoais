@@ -169,11 +169,42 @@ const TransacaoForm: React.FC<TransacaoFormProps> = ({
       setDescricao(transacaoParaEditar.descricao);
       setValor(transacaoParaEditar.valor.toString());
       setData(transacaoParaEditar.data);
-      setCategoria(transacaoParaEditar.categoria);
-      setFormaPagamento(transacaoParaEditar.formaPagamento);
-      if (transacaoParaEditar.tipoDespesa) {
-        setTipoDespesa(transacaoParaEditar.tipoDespesa);
+      
+      // Converter string para enum se necessário
+      if (typeof transacaoParaEditar.categoria === 'string') {
+        // Verificar se o valor existe no enum
+        const categoriaEnum = Object.values(CategoriaTransacao).find(
+          cat => cat === transacaoParaEditar.categoria
+        );
+        setCategoria(categoriaEnum || CategoriaTransacao.OUTROS);
+      } else {
+        setCategoria(transacaoParaEditar.categoria);
       }
+      
+      // Converter string para enum se necessário
+      if (typeof transacaoParaEditar.formaPagamento === 'string') {
+        // Verificar se o valor existe no enum
+        const formaPagamentoEnum = Object.values(FormaPagamento).find(
+          forma => forma === transacaoParaEditar.formaPagamento
+        );
+        setFormaPagamento(formaPagamentoEnum || FormaPagamento.DINHEIRO);
+      } else {
+        setFormaPagamento(transacaoParaEditar.formaPagamento);
+      }
+      
+      if (transacaoParaEditar.tipoDespesa) {
+        // Converter string para enum se necessário
+        if (typeof transacaoParaEditar.tipoDespesa === 'string') {
+          // Verificar se o valor existe no enum
+          const tipoDespesaEnum = Object.values(TipoDespesa).find(
+            tipo => tipo === transacaoParaEditar.tipoDespesa
+          );
+          setTipoDespesa(tipoDespesaEnum || TipoDespesa.VARIAVEL);
+        } else {
+          setTipoDespesa(transacaoParaEditar.tipoDespesa);
+        }
+      }
+      
       if (transacaoParaEditar.cartaoId) {
         setCartaoId(transacaoParaEditar.cartaoId);
       }

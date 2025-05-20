@@ -60,8 +60,18 @@ const Descricao = styled.div`
   font-weight: 500;
 `;
 
-const Valor = styled.div<{ tipo: TipoTransacao }>`
-  color: ${props => props.tipo === TipoTransacao.RECEITA ? 'var(--success-color)' : 'var(--error-color)'};
+// Modificado para aceitar string ou enum
+const Valor = styled.div<{ tipo: TipoTransacao | string }>`
+  color: ${props => {
+    // Converter string para enum se necessário
+    const tipoEnum = typeof props.tipo === 'string' 
+      ? (props.tipo === 'Receita' ? TipoTransacao.RECEITA : TipoTransacao.DESPESA)
+      : props.tipo;
+    
+    return tipoEnum === TipoTransacao.RECEITA 
+      ? 'var(--success-color)' 
+      : 'var(--error-color)';
+  }};
   font-weight: 500;
 `;
 
@@ -126,7 +136,9 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({ transacoes }) => {
           
           <Valor tipo={transacao.tipo}>
             <MobileLabel>Valor</MobileLabel>
-            {transacao.tipo === TipoTransacao.DESPESA ? '- ' : '+ '}
+            {typeof transacao.tipo === 'string' 
+              ? (transacao.tipo === 'Despesa' ? '- ' : '+ ')
+              : (transacao.tipo === TipoTransacao.DESPESA ? '- ' : '+ ')}
             {formatarMoeda(transacao.valor)}
           </Valor>
           
