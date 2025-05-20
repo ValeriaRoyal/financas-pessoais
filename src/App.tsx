@@ -5,7 +5,7 @@ import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 import Configuracoes from './views/Configuracoes';
 import GlobalStyles from './styles/GlobalStyles';
-import NotFound from './views/NotFound';
+import NotFound from './views/NotFound/index';
 
 const App: React.FC = () => {
   return (
