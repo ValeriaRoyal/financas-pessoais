@@ -2,6 +2,14 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
+    /* Tamanhos de fonte */
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-md: 1rem;       /* 16px */
+    --font-size-lg: 1.125rem;   /* 18px */
+    --font-size-xl: 1.25rem;    /* 20px */
+    --font-size-xxl: 1.5rem;    /* 24px */
+    
     /* Espaçamentos */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
@@ -22,12 +30,21 @@ const GlobalStyles = createGlobalStyle`
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;
+    
+    /* Larguras máximas */
+    --max-width-container: 1200px;
+    --max-width-content: 900px;
   }
   
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+  }
+  
+  html {
+    font-size: 16px; /* Base font size */
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
   }
   
   body {
@@ -37,6 +54,23 @@ const GlobalStyles = createGlobalStyle`
     color: var(--textPrimary);
     line-height: 1.5;
     transition: background-color var(--transition-normal), color var(--transition-normal);
+    font-size: var(--font-size-md);
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+  }
+  
+  h1 { font-size: var(--font-size-xxl); }
+  h2 { font-size: var(--font-size-xl); }
+  h3 { font-size: var(--font-size-lg); }
+  
+  p {
+    margin-bottom: 1rem;
   }
   
   a {
@@ -52,12 +86,26 @@ const GlobalStyles = createGlobalStyle`
   button {
     cursor: pointer;
     font-family: inherit;
+    font-size: inherit;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
   }
   
   /* Melhorias para acessibilidade de foco */
   :focus {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+  }
+  
+  /* Container principal com largura máxima */
+  .container {
+    width: 100%;
+    max-width: var(--max-width-container);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
   }
   
   /* Melhorias para dispositivos móveis */
@@ -71,9 +119,13 @@ const GlobalStyles = createGlobalStyle`
       --spacing-lg: 1.25rem;
       --spacing-xl: 1.75rem;
     }
+    
+    h1 { font-size: 1.35rem; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1.1rem; }
   }
   
-  @media (max-width: 320px) {
+  @media (max-width: 480px) {
     html {
       font-size: 14px;
     }
@@ -86,6 +138,17 @@ const GlobalStyles = createGlobalStyle`
       --spacing-xl: 1.5rem;
       --spacing-xxl: 2rem;
     }
+  }
+  
+  /* Ajustes específicos para telas muito pequenas */
+  @media (max-width: 320px) {
+    html {
+      font-size: 13px;
+    }
+    
+    h1 { font-size: 1.25rem; }
+    h2 { font-size: 1.15rem; }
+    h3 { font-size: 1.05rem; }
   }
   
   /* Suporte para preferências de movimento reduzido */
