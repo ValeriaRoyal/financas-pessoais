@@ -243,12 +243,18 @@ const UserAvatar = styled.div`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: var(--primary-light);
+  background-color: #8534DB; /* Cor mais escura para melhorar o contraste */
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
+  
+  @media (max-width: 320px) {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
 `;
 
 const UserDetails = styled.div`
