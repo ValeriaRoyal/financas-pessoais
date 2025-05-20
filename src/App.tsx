@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
+import TransacoesView from './views/Transacoes';
 import Configuracoes from './views/Configuracoes';
 import GlobalStyles from './styles/GlobalStyles';
 import NotFound from './views/NotFound/index';
@@ -25,7 +26,7 @@ const App: React.FC = () => {
           } />
           <Route path="/transacoes" element={
             <Layout title="Transações">
-              <div>Página de Transações em desenvolvimento</div>
+              <TransacoesView />
             </Layout>
           } />
           <Route path="/cartoes" element={
