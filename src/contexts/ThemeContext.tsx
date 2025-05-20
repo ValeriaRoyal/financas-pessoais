@@ -12,8 +12,8 @@ export const lightTheme = {
     secondary: '#03dac6',
     textPrimary: '#333333',
     textSecondary: '#757575',
-    error: '#b00020',
-    success: '#4caf50',
+    error: '#b71c1c',
+    success: '#2e7d32',
     warning: '#ff9800',
     info: '#2196f3',
     border: '#e0e0e0'
@@ -31,8 +31,8 @@ export const darkTheme = {
     secondary: '#03dac6',
     textPrimary: '#ffffff',
     textSecondary: '#e0e0e0', // Aumentado o contraste de #cccccc para #e0e0e0
-    error: '#cf6679',
-    success: '#81c784',
+    error: '#f44336',
+    success: '#4caf50',
     warning: '#ffb74d',
     info: '#64b5f6',
     border: '#333333'

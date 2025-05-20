@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { fadeIn } from '../../styles/animations';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface ResumoCardProps {
   titulo: string;
@@ -87,12 +88,12 @@ const TendenciaContainer = styled.div`
 const TendenciaValor = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
   color: ${props => {
     switch (props.$tendencia) {
-      case 'up': return 'var(--success)';
-      case 'down': return 'var(--error)';
+      case 'up': return '#2e7d32'; // Cor verde escura fixa para garantir contraste
+      case 'down': return '#b71c1c'; // Cor vermelha escura fixa para garantir contraste
       default: return 'var(--textPrimary)';
     }
   }};
-  font-weight: 600;
+  font-weight: 700; // Aumentado para melhorar o contraste
   font-size: 0.9rem;
   display: flex;
   align-items: center;
@@ -123,6 +124,8 @@ const ResumoCard: React.FC<ResumoCardProps> = ({
   tendencia, 
   percentual 
 }) => {
+  const { theme } = useTheme();
+  
   return (
     <CardContainer>
       <IconContainer $corIcone={cor}>
