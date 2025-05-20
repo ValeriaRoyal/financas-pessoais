@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CategoriaTransacao, ResumoPorCategoria } from '../../types';
-import { useTheme } from '../../contexts/ThemeContext';
 
 const ChartContainer = styled.div`
   background-color: var(--surface);
@@ -106,7 +105,6 @@ const coresCategorias: Record<CategoriaTransacao, string> = {
 };
 
 const GastosPorCategoria: React.FC = () => {
-  const { theme } = useTheme();
   const [dados, setDados] = useState<ResumoPorCategoria[]>([]);
   
   // Simular carregamento de dados

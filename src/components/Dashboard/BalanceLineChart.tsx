@@ -11,7 +11,10 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
+  ChartOptions,
+  Scale,
+  Tick
 } from 'chart.js';
 
 // Registrar os componentes necessários do Chart.js
@@ -103,13 +106,13 @@ const generateChartData = (theme: any, totalReceitas: number, totalDespesas: num
 };
 
 // Opções do gráfico
-const getChartOptions = (theme: any) => {
+const getChartOptions = (theme: any): ChartOptions<'line'> => {
   return {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: 'top',
         labels: {
           color: theme.name === 'dark' ? '#ffffff' : '#333333',
           font: {
@@ -118,7 +121,7 @@ const getChartOptions = (theme: any) => {
         }
       },
       tooltip: {
-        mode: 'index' as const,
+        mode: 'index',
         intersect: false,
         callbacks: {
           label: function(context: any) {
@@ -152,12 +155,15 @@ const getChartOptions = (theme: any) => {
         },
         ticks: {
           color: theme.name === 'dark' ? '#cccccc' : '#333333',
-          callback: function(value: number) {
-            return new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-              notation: 'compact'
-            }).format(value);
+          callback: function(this: Scale<any>, tickValue: number | string) {
+            if (typeof tickValue === 'number') {
+              return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                notation: 'compact'
+              }).format(tickValue);
+            }
+            return tickValue;
           }
         }
       }
