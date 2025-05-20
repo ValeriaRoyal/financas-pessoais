@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FormaPagamento, ResumoPorFormaPagamento } from '../../types';
-import TransacaoModel from '../../models/TransacaoModel';
+import { FormaPagamento, ResumoPorFormaPagamento, Transacao } from '../../types';
+import { TransacaoModel } from '../../models/TransacaoModel';
 
 const ChartContainer = styled.div`
   background-color: var(--surface);
@@ -151,13 +151,13 @@ const GastosPorFormaPagamento: React.FC = () => {
         const transacoes = await TransacaoModel.getAllTransacoes();
         
         // Filtrar apenas despesas
-        const despesas = transacoes.filter(t => t.tipo === 'Despesa');
+        const despesas = transacoes.filter((t: Transacao) => t.tipo === 'Despesa');
         
         // Calcular total de despesas
-        const totalDespesas = despesas.reduce((acc, t) => acc + t.valor, 0);
+        const totalDespesas = despesas.reduce((acc: number, t: Transacao) => acc + t.valor, 0);
         
         // Agrupar por forma de pagamento
-        const formasPagamento = despesas.reduce((acc, t) => {
+        const formasPagamento = despesas.reduce((acc: Record<string, number>, t: Transacao) => {
           const formaPagamento = t.formaPagamento;
           if (!acc[formaPagamento]) {
             acc[formaPagamento] = 0;
@@ -169,8 +169,8 @@ const GastosPorFormaPagamento: React.FC = () => {
         // Converter para o formato esperado
         const dadosProcessados: ResumoPorFormaPagamento[] = Object.entries(formasPagamento).map(([formaPagamento, valor]) => ({
           formaPagamento: formaPagamento as FormaPagamento,
-          valor,
-          percentual: (valor / totalDespesas) * 100
+          valor: valor as number,
+          percentual: ((valor as number) / totalDespesas) * 100
         }));
         
         // Ordenar por valor (decrescente)

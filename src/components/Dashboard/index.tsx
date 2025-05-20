@@ -7,7 +7,7 @@ import GastosPorFormaPagamento from './GastosPorFormaPagamento';
 import BalanceChart from './BalanceChart';
 import { fadeIn, slideInUp } from '../../styles/animations';
 import AnimatedCard from '../common/AnimatedCard';
-import ResumoModel from '../../models/ResumoModel';
+import { ResumoModel } from '../../models/ResumoModel';
 
 const DashboardContainer = styled.div`
   display: grid;

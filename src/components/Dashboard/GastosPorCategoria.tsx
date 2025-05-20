@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { CategoriaTransacao, ResumoPorCategoria } from '../../types';
-import TransacaoModel from '../../models/TransacaoModel';
+import { CategoriaTransacao, ResumoPorCategoria, Transacao } from '../../types';
+import { TransacaoModel } from '../../models/TransacaoModel';
 
 const ChartContainer = styled.div`
   background-color: var(--surface);
@@ -117,13 +117,13 @@ const GastosPorCategoria: React.FC = () => {
         const transacoes = await TransacaoModel.getAllTransacoes();
         
         // Filtrar apenas despesas
-        const despesas = transacoes.filter(t => t.tipo === 'Despesa');
+        const despesas = transacoes.filter((t: Transacao) => t.tipo === 'Despesa');
         
         // Calcular total de despesas
-        const totalDespesas = despesas.reduce((acc, t) => acc + t.valor, 0);
+        const totalDespesas = despesas.reduce((acc: number, t: Transacao) => acc + t.valor, 0);
         
         // Agrupar por categoria
-        const categorias = despesas.reduce((acc, t) => {
+        const categorias = despesas.reduce((acc: Record<string, number>, t: Transacao) => {
           const categoria = t.categoria;
           if (!acc[categoria]) {
             acc[categoria] = 0;
@@ -135,8 +135,8 @@ const GastosPorCategoria: React.FC = () => {
         // Converter para o formato esperado
         const dadosProcessados: ResumoPorCategoria[] = Object.entries(categorias).map(([categoria, valor]) => ({
           categoria: categoria as CategoriaTransacao,
-          valor,
-          percentual: (valor / totalDespesas) * 100
+          valor: valor as number,
+          percentual: ((valor as number) / totalDespesas) * 100
         }));
         
         // Ordenar por valor (decrescente)
