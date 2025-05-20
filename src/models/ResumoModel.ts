@@ -23,6 +23,17 @@ export class ResumoModel {
       throw error;
     }
   }
+  
+  /**
+   * Alias para get() para manter compatibilidade com o código existente.
+   * 
+   * @static
+   * @returns {Promise<ResumoFinanceiro>} Dados do resumo financeiro
+   * @throws {Error} Erro ao buscar resumo financeiro
+   */
+  static async getResumo(): Promise<ResumoFinanceiro> {
+    return this.get();
+  }
 
   /**
    * Atualiza o resumo financeiro.

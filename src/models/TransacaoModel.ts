@@ -23,6 +23,17 @@ export class TransacaoModel {
       throw error;
     }
   }
+  
+  /**
+   * Alias para getAll() para manter compatibilidade com o código existente.
+   * 
+   * @static
+   * @returns {Promise<Transacao[]>} Lista de transações
+   * @throws {Error} Erro ao buscar transações
+   */
+  static async getAllTransacoes(): Promise<Transacao[]> {
+    return this.getAll();
+  }
 
   /**
    * Busca uma transação específica pelo ID.
