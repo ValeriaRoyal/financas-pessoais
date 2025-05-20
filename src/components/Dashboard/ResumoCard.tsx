@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { fadeIn } from '../../styles/animations';
 
 interface ResumoCardProps {
   titulo: string;
@@ -11,7 +12,7 @@ interface ResumoCardProps {
 }
 
 const CardContainer = styled.div`
-  background-color: var(--surface-color);
+  background-color: var(--surface);
   border-radius: var(--border-radius);
   padding: var(--spacing-lg);
   box-shadow: var(--box-shadow);
@@ -19,7 +20,8 @@ const CardContainer = styled.div`
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: ${fadeIn} 0.5s ease;
   
   &:hover {
     transform: translateY(-3px);
@@ -29,20 +31,6 @@ const CardContainer = styled.div`
   @media (max-width: 320px) {
     padding: var(--spacing-md);
   }
-`;
-
-const CardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-md);
-`;
-
-const CardTitle = styled.h3`
-  margin: 0;
-  font-size: 1rem;
-  color: #333333; // Cor mais escura para melhor contraste
-  font-weight: 500;
 `;
 
 const IconContainer = styled.div<{ $corIcone: string }>`
@@ -55,6 +43,12 @@ const IconContainer = styled.div<{ $corIcone: string }>`
   justify-content: center;
   color: ${props => props.$corIcone};
   font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+  transition: transform 0.3s;
+  
+  ${CardContainer}:hover & {
+    transform: scale(1.1);
+  }
   
   @media (max-width: 320px) {
     width: 40px;
@@ -64,11 +58,18 @@ const IconContainer = styled.div<{ $corIcone: string }>`
   }
 `;
 
+const CardTitle = styled.h3`
+  margin: 0;
+  font-size: 1rem;
+  color: var(--textSecondary);
+  font-weight: 500;
+`;
+
 const CardValue = styled.div`
   font-size: 1.75rem;
   font-weight: 600;
-  color: var(--text-color);
-  margin-bottom: var(--spacing-sm);
+  color: var(--textPrimary);
+  margin: var(--spacing-sm) 0;
   
   @media (max-width: 320px) {
     font-size: 1.5rem;
@@ -76,88 +77,79 @@ const CardValue = styled.div`
   }
 `;
 
-const TrendContainer = styled.div`
+const TendenciaContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
+  margin-top: auto;
 `;
 
-const TrendIcon = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
-  color: ${props => 
-    props.$tendencia === 'up' 
-      ? '#006400' // Verde mais escuro para melhor contraste
-      : props.$tendencia === 'down' 
-        ? '#8B0000' // Vermelho mais escuro para melhor contraste
-        : '#595959'
-  };
-`;
-
-const TrendValue = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
-  color: ${props => 
-    props.$tendencia === 'up' 
-      ? '#006400' // Verde mais escuro para melhor contraste
-      : props.$tendencia === 'down' 
-        ? '#8B0000' // Vermelho mais escuro para melhor contraste
-        : '#595959'
-  };
+const TendenciaValor = styled.span<{ $tendencia: 'up' | 'down' | 'neutral' }>`
+  color: ${props => {
+    switch (props.$tendencia) {
+      case 'up': return 'var(--success)';
+      case 'down': return 'var(--error)';
+      default: return 'var(--textSecondary)';
+    }
+  }};
   font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
 `;
 
-const TrendLabel = styled.span`
-  color: #595959; // Cor mais escura para melhor contraste
+const TendenciaIcone = styled.span`
+  margin-right: 0.25rem;
 `;
 
-// Componente para simular ícones (em um projeto real, usaríamos uma biblioteca de ícones)
-const Icon = ({ name }: { name: string }) => {
-  // Aqui você usaria uma biblioteca como react-icons, feather-icons, etc.
-  return <div aria-hidden="true">{name.charAt(0).toUpperCase()}</div>;
+const TendenciaTexto = styled.span`
+  color: var(--textSecondary);
+  font-size: 0.9rem;
+`;
+
+const formatarMoeda = (valor: number) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(valor);
 };
 
 const ResumoCard: React.FC<ResumoCardProps> = ({ 
   titulo, 
   valor, 
   icone, 
-  cor,
-  tendencia = 'neutral',
-  percentual = 0
+  cor, 
+  tendencia, 
+  percentual 
 }) => {
-  // Formatar o valor como moeda brasileira
-  const valorFormatado = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(valor);
-  
-  // Determinar o ícone de tendência
-  const getTrendIcon = () => {
-    switch (tendencia) {
-      case 'up':
-        return '↑';
-      case 'down':
-        return '↓';
-      default:
-        return '→';
-    }
-  };
-  
-  // Formatar o percentual
-  const percentualFormatado = `${percentual > 0 ? '+' : ''}${percentual.toFixed(1)}%`;
-  
   return (
     <CardContainer>
-      <CardHeader>
-        <CardTitle>{titulo}</CardTitle>
-        <IconContainer $corIcone={cor}>
-          <Icon name={icone} />
-        </IconContainer>
-      </CardHeader>
-      <CardValue>{valorFormatado}</CardValue>
-      {percentual !== 0 && (
-        <TrendContainer>
-          <TrendIcon $tendencia={tendencia}>{getTrendIcon()}</TrendIcon>
-          <TrendValue $tendencia={tendencia}>{percentualFormatado}</TrendValue>
-          <TrendLabel>desde o mês passado</TrendLabel>
-        </TrendContainer>
+      <IconContainer $corIcone={cor}>
+        {/* Aqui você pode usar um componente de ícone ou emoji */}
+        {icone === 'arrow-up-circle' && '↑'}
+        {icone === 'arrow-down-circle' && '↓'}
+        {icone === 'wallet' && '👛'}
+        {icone === 'calendar' && '📅'}
+        {icone === 'credit-card' && '💳'}
+        {icone === 'shield' && '🛡️'}
+        {icone === 'trending-up' && '📈'}
+      </IconContainer>
+      
+      <CardTitle>{titulo}</CardTitle>
+      <CardValue>{formatarMoeda(valor)}</CardValue>
+      
+      {tendencia && percentual !== undefined && (
+        <TendenciaContainer>
+          <TendenciaValor $tendencia={tendencia}>
+            <TendenciaIcone>
+              {tendencia === 'up' && '↑'}
+              {tendencia === 'down' && '↓'}
+              {tendencia === 'neutral' && '→'}
+            </TendenciaIcone>
+            {Math.abs(percentual).toFixed(1)}%
+          </TendenciaValor>
+          <TendenciaTexto>vs. mês anterior</TendenciaTexto>
+        </TendenciaContainer>
       )}
     </CardContainer>
   );

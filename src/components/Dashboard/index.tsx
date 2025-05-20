@@ -5,11 +5,14 @@ import ResumoCard from './ResumoCard';
 import GastosPorCategoria from './GastosPorCategoria';
 import GastosPorFormaPagamento from './GastosPorFormaPagamento';
 import BalanceChart from './BalanceChart';
+import { fadeIn, slideInUp } from '../../styles/animations';
+import AnimatedCard from '../common/AnimatedCard';
 
 const DashboardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-lg);
+  animation: ${fadeIn} 0.5s ease;
   
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -26,7 +29,7 @@ const DashboardContainer = styled.div`
 
 const SectionTitle = styled.h2`
   margin-bottom: var(--spacing-md);
-  color: var(--text-color);
+  color: var(--textPrimary);
   font-weight: 600;
   font-size: 1.25rem;
   display: flex;
@@ -38,7 +41,7 @@ const SectionTitle = styled.h2`
     display: block;
     width: 4px;
     height: 20px;
-    background-color: var(--primary-color);
+    background-color: var(--primary);
     border-radius: 2px;
   }
   
@@ -56,6 +59,7 @@ const GraficosContainer = styled.div`
   grid-template-columns: 1fr;
   gap: var(--spacing-lg);
   margin-top: var(--spacing-xl);
+  animation: ${slideInUp} 0.5s ease;
   
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -92,19 +96,19 @@ const FilterGroup = styled.div`
 
 const FilterLabel = styled.label`
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: var(--textSecondary);
 `;
 
 const FilterSelect = styled.select`
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius-sm);
-  border: 1px solid #e0e0e0;
-  background-color: var(--surface-color);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
   font-size: 0.9rem;
-  color: var(--text-color);
+  color: var(--textPrimary);
   
   &:focus {
-    border-color: var(--primary-color);
+    border-color: var(--primary);
     outline: none;
     box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.1);
   }
@@ -112,6 +116,22 @@ const FilterSelect = styled.select`
   @media (max-width: 320px) {
     padding: 0.4rem 0.75rem;
     font-size: 0.85rem;
+  }
+`;
+
+const ExpandButton = styled.button`
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-top: var(--spacing-md);
+  
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -128,6 +148,7 @@ const Dashboard: React.FC = () => {
   });
   
   const [periodoSelecionado, setPeriodoSelecionado] = useState('mes-atual');
+  const [showDetails, setShowDetails] = useState(false);
   
   // Simular carregamento de dados
   useEffect(() => {
@@ -167,14 +188,17 @@ const Dashboard: React.FC = () => {
       </FilterContainer>
       
       <Section>
-        <BalanceChart 
-          totalReceitas={resumo.totalReceitas}
-          totalDespesas={resumo.totalDespesas}
-          saldo={resumo.saldo}
-        />
+        <AnimatedCard>
+          <BalanceChart 
+            totalReceitas={resumo.totalReceitas}
+            totalDespesas={resumo.totalDespesas}
+            saldo={resumo.saldo}
+          />
+        </AnimatedCard>
       </Section>
       
       <Section>
+        <SectionTitle>Resumo Financeiro</SectionTitle>
         <DashboardContainer>
           <ResumoCard 
             titulo="Entradas" 
@@ -207,43 +231,50 @@ const Dashboard: React.FC = () => {
             cor="#ff9800"
           />
         </DashboardContainer>
-      </Section>
-      
-      <Section>
-        <SectionTitle>Detalhamento Financeiro</SectionTitle>
-        <DashboardContainer>
-          <ResumoCard 
-            titulo="Cartões de Crédito" 
-            valor={resumo.totalCartaoCredito} 
-            icone="credit-card" 
-            cor="#ff9800"
-            tendencia="up"
-            percentual={3.7}
-          />
-          <ResumoCard 
-            titulo="Reserva de Emergência" 
-            valor={resumo.totalReserva} 
-            icone="shield" 
-            cor="#0097a7"
-            tendencia="up"
-            percentual={1.2}
-          />
-          <ResumoCard 
-            titulo="Investimentos" 
-            valor={resumo.totalInvestimentos} 
-            icone="trending-up" 
-            cor="#00796b"
-            tendencia="up"
-            percentual={8.4}
-          />
-        </DashboardContainer>
+        
+        <ExpandButton onClick={() => setShowDetails(!showDetails)}>
+          {showDetails ? 'Mostrar menos ▲' : 'Mostrar mais ▼'}
+        </ExpandButton>
+        
+        {showDetails && (
+          <DashboardContainer style={{ marginTop: 'var(--spacing-md)' }}>
+            <ResumoCard 
+              titulo="Cartões de Crédito" 
+              valor={resumo.totalCartaoCredito} 
+              icone="credit-card" 
+              cor="#ff9800"
+              tendencia="up"
+              percentual={3.7}
+            />
+            <ResumoCard 
+              titulo="Reserva de Emergência" 
+              valor={resumo.totalReserva} 
+              icone="shield" 
+              cor="#0097a7"
+              tendencia="up"
+              percentual={1.2}
+            />
+            <ResumoCard 
+              titulo="Investimentos" 
+              valor={resumo.totalInvestimentos} 
+              icone="trending-up" 
+              cor="#00796b"
+              tendencia="up"
+              percentual={8.4}
+            />
+          </DashboardContainer>
+        )}
       </Section>
       
       <Section>
         <SectionTitle>Análise de Gastos</SectionTitle>
         <GraficosContainer>
-          <GastosPorCategoria />
-          <GastosPorFormaPagamento />
+          <AnimatedCard>
+            <GastosPorCategoria />
+          </AnimatedCard>
+          <AnimatedCard>
+            <GastosPorFormaPagamento />
+          </AnimatedCard>
         </GraficosContainer>
       </Section>
     </div>
