@@ -147,11 +147,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     return location.pathname === path;
   };
   
-  // Função simplificada para fechar o menu em dispositivos móveis
+  // Função para fechar o menu em qualquer tamanho de tela
   const handleLinkClick = () => {
-    if (window.innerWidth < 768) {
-      toggleSidebar();
-    }
+    // Fechar o menu independentemente do tamanho da tela
+    toggleSidebar();
   };
   
   return (
