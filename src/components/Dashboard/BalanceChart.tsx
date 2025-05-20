@@ -91,7 +91,6 @@ const BarLabel = styled.div`
   color: var(--textPrimary);
   text-align: center;
   font-weight: 600;
-  text-shadow: 0 0 2px rgba(0,0,0,0.3);
 `;
 
 const BarValue = styled.div`
