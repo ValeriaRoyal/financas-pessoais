@@ -217,7 +217,7 @@ const RadioInput = styled.input`
 `;
 
 const Configuracoes: React.FC = () => {
-  const { theme, themeName, setTheme } = useTheme();
+  const { themeName, setTheme } = useTheme();
   const [notificacoesAtivas, setNotificacoesAtivas] = useState(true);
   const [lembretesVencimento, setLembretesVencimento] = useState(3);
   const [modoAutomatico, setModoAutomatico] = useState(false);

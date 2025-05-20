@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
 import { buttonPress } from '../../styles/animations';
 
@@ -84,7 +84,7 @@ const ThemeIcon = styled.span<{ $isTransitioning: boolean }>`
   transition: transform 0.3s ease;
   z-index: 1;
   
-  ${props => props.$isTransitioning && `
+  ${props => props.$isTransitioning && css`
     animation: ${spin} 0.5s ease-in-out, ${pulse} 0.5s ease-in-out;
   `}
   
@@ -111,7 +111,7 @@ const ThemeLabel = styled.span`
 `;
 
 const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
-  const { theme, toggleTheme, isTransitioning, themeName } = useTheme();
+  const { theme, toggleTheme, isTransitioning } = useTheme();
   
   const getThemeIcon = () => {
     switch (theme.name) {
