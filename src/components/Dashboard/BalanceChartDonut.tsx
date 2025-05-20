@@ -65,32 +65,6 @@ const DonutHole = styled.div`
   border-radius: 50%;
   top: 20%;
   left: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
-
-const DonutValues = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-`;
-
-const DonutValue = styled.div<{ $color: string }>`
-  font-size: 0.9rem;
-  font-weight: bold;
-  text-align: center;
-  color: ${props => props.$color};
-`;
-
-const DonutLabel = styled.div`
-  font-size: 0.7rem;
-  color: var(--textSecondary);
-  text-align: center;
-  font-weight: 500;
 `;
 
 const BalanceChartDonut: React.FC<BalanceChartDonutProps> = ({ totalReceitas, totalDespesas }) => {
@@ -114,14 +88,6 @@ const BalanceChartDonut: React.FC<BalanceChartDonutProps> = ({ totalReceitas, to
   const coresTipos: Record<string, string> = {
     'Entradas': getEntradaColor(),
     'Saídas': getSaidaColor()
-  };
-  
-  // Formatar valor como moeda brasileira
-  const formatarMoeda = (valor: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(valor);
   };
   
   // Calcular ângulos para o gráfico de rosca
@@ -154,16 +120,7 @@ const BalanceChartDonut: React.FC<BalanceChartDonutProps> = ({ totalReceitas, to
             $cor={segmento.cor}
           />
         ))}
-        <DonutHole>
-          <DonutValues>
-            <DonutValue $color={getEntradaColor()}>
-              {formatarMoeda(totalReceitas)}
-            </DonutValue>
-            <DonutValue $color={getSaidaColor()}>
-              {formatarMoeda(totalDespesas)}
-            </DonutValue>
-          </DonutValues>
-        </DonutHole>
+        <DonutHole />
       </DonutChart>
     </DonutChartContainer>
   );
