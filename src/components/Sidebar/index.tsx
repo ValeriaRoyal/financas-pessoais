@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
+import { Link, useLocation } from 'react-router-dom';
+import { slideInUp } from '../../styles/animations';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -9,153 +10,117 @@ interface SidebarProps {
 
 const SidebarContainer = styled.aside<{ $isOpen: boolean }>`
   position: fixed;
-  left: 0;
   top: 0;
-  bottom: 0;
+  left: 0;
+  height: 100vh;
   width: 280px;
-  background-color: var(--surface-color);
-  color: var(--text-color);
+  background-color: var(--surface);
+  box-shadow: var(--box-shadow);
+  z-index: 1000;
   transform: translateX(${props => props.$isOpen ? '0' : '-100%'});
   transition: transform 0.3s ease;
-  z-index: 1000;
-  box-shadow: ${props => props.$isOpen ? 'var(--box-shadow)' : 'none'};
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
   
   @media (min-width: 768px) {
     transform: translateX(0);
-    position: fixed;
-    top: 0;
-    height: 100vh;
   }
 `;
 
 const SidebarHeader = styled.div`
-  padding: 1.5rem;
+  padding: var(--spacing-lg);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
 `;
 
 const Logo = styled.div`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-`;
-
-const LogoIcon = styled.div`
-  width: 32px;
-  height: 32px;
-  background-color: var(--primary-color);
-  color: white;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
+  gap: 0.5rem;
 `;
 
 const CloseButton = styled.button`
   background: none;
   border: none;
-  color: var(--text-secondary);
+  color: var(--textSecondary);
   font-size: 1.5rem;
   cursor: pointer;
-  display: block;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   transition: background-color 0.2s;
   
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
-    color: var(--text-color);
   }
   
   @media (min-width: 768px) {
     display: none;
   }
-  
-  &:focus {
-    outline: 2px solid var(--primary-light);
-    outline-offset: 2px;
-  }
 `;
 
-const SidebarContent = styled.div`
-  padding: 1rem 0;
-  height: calc(100% - 80px);
-  overflow-y: auto;
-`;
-
-const SidebarNav = styled.nav`
-  display: flex;
-  flex-direction: column;
+const NavMenu = styled.nav`
+  padding: var(--spacing-md);
 `;
 
 const NavSection = styled.div`
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-lg);
+  animation: ${slideInUp} 0.5s ease;
 `;
 
-const SectionTitle = styled.h3`
-  font-size: 0.75rem;
+const NavSectionTitle = styled.h3`
+  font-size: 0.8rem;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  padding: 0 1.5rem;
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.5px;
-  font-weight: 600;
+  color: var(--textSecondary);
+  margin-bottom: var(--spacing-sm);
+  padding: 0 var(--spacing-sm);
+  letter-spacing: 0.05em;
 `;
 
-const NavItem = styled(Link)<{ $active: boolean }>`
+const NavList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const NavItem = styled.li`
+  margin-bottom: 2px;
+`;
+
+const NavLink = styled(Link)<{ $active?: boolean }>`
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  color: ${props => props.$active ? 'var(--primary-color)' : 'var(--text-color)'};
+  padding: 0.75rem var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  color: ${props => props.$active ? 'var(--primary)' : 'var(--textPrimary)'};
   text-decoration: none;
-  transition: all 0.2s;
-  background-color: ${props => props.$active ? 'rgba(98, 0, 238, 0.05)' : 'transparent'};
-  border-left: 3px solid ${props => props.$active ? 'var(--primary-color)' : 'transparent'};
+  transition: background-color 0.2s;
   font-weight: ${props => props.$active ? '500' : 'normal'};
+  background-color: ${props => props.$active ? 'var(--primaryLight)15' : 'transparent'};
   
   &:hover {
-    background-color: rgba(0, 0, 0, 0.03);
-    color: var(--primary-color);
+    background-color: ${props => props.$active ? 'var(--primaryLight)25' : 'rgba(0, 0, 0, 0.05)'};
   }
   
-  &:focus {
-    outline: 2px solid var(--primary-light);
-    outline-offset: -2px;
+  .dark-theme & {
+    &:hover {
+      background-color: ${props => props.$active ? 'var(--primaryLight)25' : 'rgba(255, 255, 255, 0.1)'};
+    }
   }
 `;
 
-const IconContainer = styled.span<{ $active: boolean }>`
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 0.75rem;
+const NavIcon = styled.span`
+  margin-right: var(--spacing-sm);
   font-size: 1.25rem;
-  border-radius: 8px;
-  background-color: ${props => props.$active ? 'var(--primary-color)' : 'rgba(0, 0, 0, 0.03)'};
-  color: ${props => props.$active ? 'white' : 'var(--text-secondary)'};
-  transition: all 0.2s;
-  
-  ${NavItem}:hover & {
-    background-color: ${props => props.$active ? 'var(--primary-color)' : 'rgba(98, 0, 238, 0.1)'};
-    color: ${props => props.$active ? 'white' : 'var(--primary-color)'};
-  }
-`;
-
-const NavText = styled.span`
-  font-size: 0.95rem;
+  width: 24px;
+  text-align: center;
 `;
 
 const Overlay = styled.div<{ $isOpen: boolean }>`
@@ -175,91 +140,93 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
   }
 `;
 
-const SidebarFooter = styled.div`
-  padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: var(--surface-color);
-`;
-
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   
-  // Função para verificar se o link está ativo
   const isActive = (path: string) => {
     return location.pathname === path;
   };
   
   return (
     <>
-      <SidebarContainer $isOpen={isOpen} aria-label="Menu principal">
+      <SidebarContainer $isOpen={isOpen}>
         <SidebarHeader>
           <Logo>
-            <LogoIcon>💰</LogoIcon>
-            <span>Finanças Pessoais</span>
+            <span>💰</span>
+            <span>Finanças</span>
           </Logo>
           <CloseButton onClick={toggleSidebar} aria-label="Fechar menu">
             &times;
           </CloseButton>
         </SidebarHeader>
         
-        <SidebarContent>
-          <SidebarNav aria-label="Menu de navegação principal">
-            <NavSection>
-              <SectionTitle>Principal</SectionTitle>
-              <NavItem to="/" $active={isActive('/')}>
-                <IconContainer $active={isActive('/')}>📊</IconContainer>
-                <NavText>Dashboard</NavText>
+        <NavMenu>
+          <NavSection>
+            <NavSectionTitle>Principal</NavSectionTitle>
+            <NavList>
+              <NavItem>
+                <NavLink to="/" $active={isActive('/')}>
+                  <NavIcon>📊</NavIcon>
+                  Dashboard
+                </NavLink>
               </NavItem>
-              <NavItem to="/transacoes" $active={isActive('/transacoes')}>
-                <IconContainer $active={isActive('/transacoes')}>💰</IconContainer>
-                <NavText>Transações</NavText>
+              <NavItem>
+                <NavLink to="/transacoes" $active={isActive('/transacoes')}>
+                  <NavIcon>📝</NavIcon>
+                  Transações
+                </NavLink>
               </NavItem>
-            </NavSection>
-            
-            <NavSection>
-              <SectionTitle>Gerenciamento</SectionTitle>
-              <NavItem to="/cartoes" $active={isActive('/cartoes')}>
-                <IconContainer $active={isActive('/cartoes')}>💳</IconContainer>
-                <NavText>Cartões de Crédito</NavText>
+              <NavItem>
+                <NavLink to="/cartoes" $active={isActive('/cartoes')}>
+                  <NavIcon>💳</NavIcon>
+                  Cartões
+                </NavLink>
               </NavItem>
-              <NavItem to="/investimentos" $active={isActive('/investimentos')}>
-                <IconContainer $active={isActive('/investimentos')}>📈</IconContainer>
-                <NavText>Investimentos</NavText>
+            </NavList>
+          </NavSection>
+          
+          <NavSection>
+            <NavSectionTitle>Planejamento</NavSectionTitle>
+            <NavList>
+              <NavItem>
+                <NavLink to="/metas" $active={isActive('/metas')}>
+                  <NavIcon>🎯</NavIcon>
+                  Metas
+                </NavLink>
               </NavItem>
-              <NavItem to="/reservas" $active={isActive('/reservas')}>
-                <IconContainer $active={isActive('/reservas')}>🛡️</IconContainer>
-                <NavText>Reserva de Emergência</NavText>
+              <NavItem>
+                <NavLink to="/orcamento" $active={isActive('/orcamento')}>
+                  <NavIcon>📅</NavIcon>
+                  Orçamento
+                </NavLink>
               </NavItem>
-            </NavSection>
-            
-            <NavSection>
-              <SectionTitle>Análises</SectionTitle>
-              <NavItem to="/relatorios" $active={isActive('/relatorios')}>
-                <IconContainer $active={isActive('/relatorios')}>📝</IconContainer>
-                <NavText>Relatórios</NavText>
+              <NavItem>
+                <NavLink to="/investimentos" $active={isActive('/investimentos')}>
+                  <NavIcon>📈</NavIcon>
+                  Investimentos
+                </NavLink>
               </NavItem>
-              <NavItem to="/metas" $active={isActive('/metas')}>
-                <IconContainer $active={isActive('/metas')}>🎯</IconContainer>
-                <NavText>Metas Financeiras</NavText>
+            </NavList>
+          </NavSection>
+          
+          <NavSection>
+            <NavSectionTitle>Configurações</NavSectionTitle>
+            <NavList>
+              <NavItem>
+                <NavLink to="/configuracoes" $active={isActive('/configuracoes')}>
+                  <NavIcon>⚙️</NavIcon>
+                  Configurações
+                </NavLink>
               </NavItem>
-            </NavSection>
-            
-            <NavSection>
-              <SectionTitle>Configurações</SectionTitle>
-              <NavItem to="/configuracoes" $active={isActive('/configuracoes')}>
-                <IconContainer $active={isActive('/configuracoes')}>⚙️</IconContainer>
-                <NavText>Configurações</NavText>
+              <NavItem>
+                <NavLink to="/perfil" $active={isActive('/perfil')}>
+                  <NavIcon>👤</NavIcon>
+                  Perfil
+                </NavLink>
               </NavItem>
-            </NavSection>
-          </SidebarNav>
-        </SidebarContent>
-        
-        <SidebarFooter>
-          {/* Rodapé vazio */}
-        </SidebarFooter>
+            </NavList>
+          </NavSection>
+        </NavMenu>
       </SidebarContainer>
       
       <Overlay $isOpen={isOpen} onClick={toggleSidebar} />

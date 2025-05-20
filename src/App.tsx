@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 import Configuracoes from './views/Configuracoes';
 import GlobalStyles from './styles/GlobalStyles';
+import NotFound from './views/NotFound';
 
 const App: React.FC = () => {
   return (
@@ -22,7 +23,37 @@ const App: React.FC = () => {
               <Configuracoes />
             </Layout>
           } />
-          {/* Adicione mais rotas conforme necessário */}
+          <Route path="/transacoes" element={
+            <Layout title="Transações">
+              <div>Página de Transações em desenvolvimento</div>
+            </Layout>
+          } />
+          <Route path="/cartoes" element={
+            <Layout title="Cartões">
+              <div>Página de Cartões em desenvolvimento</div>
+            </Layout>
+          } />
+          <Route path="/metas" element={
+            <Layout title="Metas">
+              <div>Página de Metas em desenvolvimento</div>
+            </Layout>
+          } />
+          <Route path="/orcamento" element={
+            <Layout title="Orçamento">
+              <div>Página de Orçamento em desenvolvimento</div>
+            </Layout>
+          } />
+          <Route path="/investimentos" element={
+            <Layout title="Investimentos">
+              <div>Página de Investimentos em desenvolvimento</div>
+            </Layout>
+          } />
+          <Route path="/perfil" element={
+            <Layout title="Perfil">
+              <div>Página de Perfil em desenvolvimento</div>
+            </Layout>
+          } />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </ThemeProvider>
