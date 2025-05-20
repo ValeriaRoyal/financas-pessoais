@@ -232,8 +232,6 @@ const Transacoes: React.FC = () => {
   
   return (
     <TransacoesContainer>
-      <h1>Transações</h1>
-      
       {error && <ErrorContainer>{error}</ErrorContainer>}
       
       {successMessage && (
