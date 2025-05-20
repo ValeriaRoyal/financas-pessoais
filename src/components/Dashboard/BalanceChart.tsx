@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
+import BalanceChartDonut from './BalanceChartDonut';
 
 interface BalanceChartProps {
   totalReceitas: number;
@@ -179,19 +180,10 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
       
       <ChartContent>
         <ChartVisual>
-          <BarContainer>
-            <BarGroup>
-              <Bar $height={receitasHeight} $color={getEntradaColor()} />
-              <BarLabel>Entradas</BarLabel>
-              <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
-            </BarGroup>
-            
-            <BarGroup>
-              <Bar $height={despesasHeight} $color={getSaidaColor()} />
-              <BarLabel>Saídas</BarLabel>
-              <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
-            </BarGroup>
-          </BarContainer>
+          <BalanceChartDonut 
+            totalReceitas={totalReceitas}
+            totalDespesas={totalDespesas}
+          />
         </ChartVisual>
         
         <SummaryContainer>
