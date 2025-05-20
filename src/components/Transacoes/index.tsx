@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Transacao, TipoTransacao, CategoriaTransacao, FormaPagamento, TipoDespesa } from '../../types';
 import TransacaoForm from './TransacaoForm';
 import TransacaoLista from './TransacaoLista';
+import { TransacaoModel } from '../../models/TransacaoModel';
 
 const TransacoesContainer = styled.div`
   display: flex;
@@ -65,97 +66,121 @@ const FilterSelect = styled.select`
   min-width: 150px;
 `;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+`;
+
+const ErrorContainer = styled.div`
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+`;
+
 const Transacoes: React.FC = () => {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [tipoFormulario, setTipoFormulario] = useState<TipoTransacao>(TipoTransacao.DESPESA);
+  const [transacaoParaEditar, setTransacaoParaEditar] = useState<Transacao | undefined>(undefined);
   const [filtroTipo, setFiltroTipo] = useState<string>('todos');
   const [filtroCategoria, setFiltroCategoria] = useState<string>('todas');
   const [filtroMes, setFiltroMes] = useState<string>(new Date().getMonth().toString());
   const [filtroAno, setFiltroAno] = useState<string>(new Date().getFullYear().toString());
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
-  // Simular carregamento de dados
+  // Carregar transações da API
   useEffect(() => {
-    // Em um cenário real, isso viria de uma API ou localStorage
-    const dadosSimulados: Transacao[] = [
-      {
-        id: '1',
-        descricao: 'Salário',
-        valor: 5000,
-        data: '2025-05-05',
-        tipo: TipoTransacao.RECEITA,
-        categoria: CategoriaTransacao.OUTROS,
-        formaPagamento: FormaPagamento.TRANSFERENCIA,
-        recorrente: true,
-        parcelado: false
-      },
-      {
-        id: '2',
-        descricao: 'Aluguel',
-        valor: 1200,
-        data: '2025-05-10',
-        tipo: TipoTransacao.DESPESA,
-        categoria: CategoriaTransacao.MORADIA,
-        formaPagamento: FormaPagamento.TRANSFERENCIA,
-        tipoDespesa: TipoDespesa.FIXA,
-        recorrente: true,
-        parcelado: false
-      },
-      {
-        id: '3',
-        descricao: 'Supermercado',
-        valor: 500,
-        data: '2025-05-12',
-        tipo: TipoTransacao.DESPESA,
-        categoria: CategoriaTransacao.ALIMENTACAO,
-        formaPagamento: FormaPagamento.CREDITO,
-        tipoDespesa: TipoDespesa.VARIAVEL,
-        cartaoId: '1',
-        recorrente: false,
-        parcelado: false
-      },
-      {
-        id: '4',
-        descricao: 'Curso de Inglês',
-        valor: 300,
-        data: '2025-05-15',
-        tipo: TipoTransacao.DESPESA,
-        categoria: CategoriaTransacao.EDUCACAO,
-        formaPagamento: FormaPagamento.CREDITO,
-        tipoDespesa: TipoDespesa.FIXA,
-        cartaoId: '1',
-        recorrente: true,
-        parcelado: false
-      },
-      {
-        id: '5',
-        descricao: 'Freelance',
-        valor: 1200,
-        data: '2025-05-18',
-        tipo: TipoTransacao.RECEITA,
-        categoria: CategoriaTransacao.OUTROS,
-        formaPagamento: FormaPagamento.PIX,
-        recorrente: false,
-        parcelado: false
+    const carregarTransacoes = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await TransacaoModel.getAllTransacoes();
+        setTransacoes(data);
+      } catch (err) {
+        console.error('Erro ao carregar transações:', err);
+        setError('Não foi possível carregar as transações. Por favor, tente novamente mais tarde.');
+      } finally {
+        setIsLoading(false);
       }
-    ];
+    };
     
-    setTransacoes(dadosSimulados);
+    carregarTransacoes();
   }, []);
   
   const handleNovaTransacao = (tipo: TipoTransacao) => {
     setTipoFormulario(tipo);
+    setTransacaoParaEditar(undefined);
     setMostrarFormulario(true);
   };
   
-  const handleSalvarTransacao = (transacao: Transacao) => {
-    // Em um cenário real, isso seria enviado para uma API
-    setTransacoes([...transacoes, transacao]);
-    setMostrarFormulario(false);
+  const handleEditarTransacao = (transacao: Transacao) => {
+    setTipoFormulario(
+      typeof transacao.tipo === 'string'
+        ? (transacao.tipo === 'Receita' ? TipoTransacao.RECEITA : TipoTransacao.DESPESA)
+        : transacao.tipo
+    );
+    setTransacaoParaEditar(transacao);
+    setMostrarFormulario(true);
+  };
+  
+  const handleSalvarTransacao = async (transacao: Transacao) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      if (transacaoParaEditar) {
+        // Atualizar transação existente
+        await TransacaoModel.update(transacao.id, transacao);
+        
+        // Atualizar estado local
+        setTransacoes(transacoes.map(t => 
+          t.id === transacao.id ? transacao : t
+        ));
+      } else {
+        // Criar nova transação
+        const novaTransacao = await TransacaoModel.create(transacao);
+        
+        // Atualizar estado local
+        setTransacoes([...transacoes, novaTransacao]);
+      }
+      
+      setMostrarFormulario(false);
+    } catch (err) {
+      console.error('Erro ao salvar transação:', err);
+      setError('Não foi possível salvar a transação. Por favor, tente novamente mais tarde.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const handleExcluirTransacao = async (id: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      // Excluir transação da API
+      await TransacaoModel.delete(id);
+      
+      // Atualizar estado local
+      setTransacoes(transacoes.filter(t => t.id !== id));
+    } catch (err) {
+      console.error('Erro ao excluir transação:', err);
+      setError('Não foi possível excluir a transação. Por favor, tente novamente mais tarde.');
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   const handleCancelar = () => {
     setMostrarFormulario(false);
+    setTransacaoParaEditar(undefined);
   };
   
   const transacoesFiltradas = transacoes.filter(transacao => {
@@ -175,16 +200,20 @@ const Transacoes: React.FC = () => {
     <TransacoesContainer>
       <h1>Transações</h1>
       
+      {error && <ErrorContainer>{error}</ErrorContainer>}
+      
       <ButtonsContainer>
         <ActionButton 
           primary 
           onClick={() => handleNovaTransacao(TipoTransacao.RECEITA)}
+          disabled={isLoading}
         >
           Nova Receita
         </ActionButton>
         <ActionButton 
           primary 
           onClick={() => handleNovaTransacao(TipoTransacao.DESPESA)}
+          disabled={isLoading}
         >
           Nova Despesa
         </ActionButton>
@@ -193,6 +222,7 @@ const Transacoes: React.FC = () => {
       {mostrarFormulario ? (
         <TransacaoForm 
           tipo={tipoFormulario} 
+          transacaoParaEditar={transacaoParaEditar}
           onSalvar={handleSalvarTransacao}
           onCancelar={handleCancelar}
         />
@@ -262,7 +292,15 @@ const Transacoes: React.FC = () => {
             </FilterGroup>
           </FilterContainer>
           
-          <TransacaoLista transacoes={transacoesFiltradas} />
+          {isLoading ? (
+            <LoadingContainer>Carregando transações...</LoadingContainer>
+          ) : (
+            <TransacaoLista 
+              transacoes={transacoesFiltradas} 
+              onEditar={handleEditarTransacao}
+              onExcluir={handleExcluirTransacao}
+            />
+          )}
         </>
       )}
     </TransacoesContainer>

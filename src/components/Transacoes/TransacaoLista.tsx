@@ -4,6 +4,8 @@ import { Transacao, TipoTransacao } from '../../types';
 
 interface TransacaoListaProps {
   transacoes: Transacao[];
+  onEditar: (transacao: Transacao) => void;
+  onExcluir: (id: string) => void;
 }
 
 const ListaContainer = styled.div`
@@ -15,20 +17,20 @@ const ListaContainer = styled.div`
 
 const ListaHeader = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
   padding: 1rem;
   background-color: #f5f5f5;
   font-weight: 500;
   border-bottom: 1px solid #e0e0e0;
   
   @media (min-width: 768px) {
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
   }
 `;
 
 const ListaItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
   padding: 1rem;
   border-bottom: 1px solid #f0f0f0;
   
@@ -41,7 +43,7 @@ const ListaItem = styled.div`
   }
   
   @media (min-width: 768px) {
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
   }
 `;
 
@@ -87,13 +89,40 @@ const Categoria = styled.div`
   }
 `;
 
+const AcoesContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+`;
+
+const BotaoAcao = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-color);
+  padding: 0.25rem;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  &.excluir {
+    color: var(--error-color);
+  }
+`;
+
 const EmptyState = styled.div`
   padding: 2rem;
   text-align: center;
   color: #666;
 `;
 
-const TransacaoLista: React.FC<TransacaoListaProps> = ({ transacoes }) => {
+const TransacaoLista: React.FC<TransacaoListaProps> = ({ 
+  transacoes,
+  onEditar,
+  onExcluir
+}) => {
   // Formatar valor como moeda brasileira
   const formatarMoeda = (valor: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -125,6 +154,8 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({ transacoes }) => {
         <div>Valor</div>
         <div>Data</div>
         <div className="desktop-only">Categoria</div>
+        <div className="desktop-only">Forma Pagto</div>
+        <div>Ações</div>
       </ListaHeader>
       
       {transacoes.map(transacao => (
@@ -151,6 +182,31 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({ transacoes }) => {
             <MobileLabel>Categoria</MobileLabel>
             {transacao.categoria}
           </Categoria>
+          
+          <Categoria>
+            <MobileLabel>Forma Pagto</MobileLabel>
+            {transacao.formaPagamento}
+          </Categoria>
+          
+          <AcoesContainer>
+            <BotaoAcao 
+              title="Editar" 
+              onClick={() => onEditar(transacao)}
+            >
+              ✏️
+            </BotaoAcao>
+            <BotaoAcao 
+              className="excluir" 
+              title="Excluir"
+              onClick={() => {
+                if (window.confirm('Tem certeza que deseja excluir esta transação?')) {
+                  onExcluir(transacao.id);
+                }
+              }}
+            >
+              🗑️
+            </BotaoAcao>
+          </AcoesContainer>
         </ListaItem>
       ))}
     </ListaContainer>
