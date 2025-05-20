@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { slideInUp } from '../../styles/animations';
 
 interface SidebarProps {
@@ -142,9 +142,21 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+  
+  // Função para lidar com cliques nos links do menu em dispositivos móveis
+  const handleNavLinkClick = (path: string) => {
+    // Em dispositivos móveis, fechar o menu após clicar em um link
+    if (window.innerWidth < 768) {
+      toggleSidebar();
+    }
+    
+    // Navegar para a rota desejada
+    navigate(path);
   };
   
   return (
@@ -165,19 +177,40 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             <NavSectionTitle>Principal</NavSectionTitle>
             <NavList>
               <NavItem>
-                <NavLink to="/" $active={isActive('/')}>
+                <NavLink 
+                  to="/" 
+                  $active={isActive('/')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/');
+                  }}
+                >
                   <NavIcon>📊</NavIcon>
                   Dashboard
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/transacoes" $active={isActive('/transacoes')}>
+                <NavLink 
+                  to="/transacoes" 
+                  $active={isActive('/transacoes')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/transacoes');
+                  }}
+                >
                   <NavIcon>📝</NavIcon>
                   Transações
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/cartoes" $active={isActive('/cartoes')}>
+                <NavLink 
+                  to="/cartoes" 
+                  $active={isActive('/cartoes')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/cartoes');
+                  }}
+                >
                   <NavIcon>💳</NavIcon>
                   Cartões
                 </NavLink>
@@ -189,19 +222,40 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             <NavSectionTitle>Planejamento</NavSectionTitle>
             <NavList>
               <NavItem>
-                <NavLink to="/metas" $active={isActive('/metas')}>
+                <NavLink 
+                  to="/metas" 
+                  $active={isActive('/metas')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/metas');
+                  }}
+                >
                   <NavIcon>🎯</NavIcon>
                   Metas
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/orcamento" $active={isActive('/orcamento')}>
+                <NavLink 
+                  to="/orcamento" 
+                  $active={isActive('/orcamento')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/orcamento');
+                  }}
+                >
                   <NavIcon>📅</NavIcon>
                   Orçamento
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/investimentos" $active={isActive('/investimentos')}>
+                <NavLink 
+                  to="/investimentos" 
+                  $active={isActive('/investimentos')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/investimentos');
+                  }}
+                >
                   <NavIcon>📈</NavIcon>
                   Investimentos
                 </NavLink>
@@ -213,13 +267,27 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             <NavSectionTitle>Configurações</NavSectionTitle>
             <NavList>
               <NavItem>
-                <NavLink to="/configuracoes" $active={isActive('/configuracoes')}>
+                <NavLink 
+                  to="/configuracoes" 
+                  $active={isActive('/configuracoes')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/configuracoes');
+                  }}
+                >
                   <NavIcon>⚙️</NavIcon>
                   Configurações
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/perfil" $active={isActive('/perfil')}>
+                <NavLink 
+                  to="/perfil" 
+                  $active={isActive('/perfil')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavLinkClick('/perfil');
+                  }}
+                >
                   <NavIcon>👤</NavIcon>
                   Perfil
                 </NavLink>
