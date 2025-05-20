@@ -1,20 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
-import BalanceLineChart from './BalanceLineChart';
-import BalancePieChart from './BalancePieChart';
 
 interface BalanceChartProps {
   totalReceitas: number;
   totalDespesas: number;
   saldo: number;
 }
-
-const DashboardSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-`;
 
 const ChartContainer = styled.div`
   background-color: var(--surface);
@@ -148,28 +140,6 @@ const SummaryDivider = styled.div`
   margin: var(--spacing-xs) 0;
 `;
 
-const ChartsRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-lg);
-  margin-top: var(--spacing-md);
-  
-  @media (min-width: 768px) {
-    grid-template-columns: 2fr 1fr;
-  }
-`;
-
-const PieChartContainer = styled.div`
-  background-color: var(--surface);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-md);
-  box-shadow: var(--box-shadow);
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesas, saldo }) => {
   const { theme } = useTheme();
   
@@ -204,62 +174,53 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
   const getSaidaColor = () => theme.name === 'dark' ? '#ff6666' : '#8B0000';
   
   return (
-    <DashboardSection>
-      <ChartContainer>
-        <ChartTitle>Balanço Financeiro</ChartTitle>
+    <ChartContainer>
+      <ChartTitle>Balanço Financeiro</ChartTitle>
+      
+      <ChartContent>
+        <ChartVisual>
+          <BarContainer>
+            <BarGroup>
+              <Bar $height={receitasHeight} $color={getEntradaColor()} />
+              <BarLabel>Entradas</BarLabel>
+              <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
+            </BarGroup>
+            
+            <BarGroup>
+              <Bar $height={despesasHeight} $color={getSaidaColor()} />
+              <BarLabel>Saídas</BarLabel>
+              <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
+            </BarGroup>
+          </BarContainer>
+        </ChartVisual>
         
-        <ChartContent>
-          <ChartVisual>
-            <BarContainer>
-              <BarGroup>
-                <Bar $height={receitasHeight} $color={getEntradaColor()} />
-                <BarLabel>Entradas</BarLabel>
-                <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
-              </BarGroup>
-              
-              <BarGroup>
-                <Bar $height={despesasHeight} $color={getSaidaColor()} />
-                <BarLabel>Saídas</BarLabel>
-                <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
-              </BarGroup>
-            </BarContainer>
-          </ChartVisual>
+        <SummaryContainer>
+          <SummaryItem>
+            <SummaryLabel>Total de Entradas</SummaryLabel>
+            <SummaryValue $color={getEntradaColor()}>{formatarMoeda(totalReceitas)}</SummaryValue>
+          </SummaryItem>
           
-          <SummaryContainer>
-            <SummaryItem>
-              <SummaryLabel>Total de Entradas</SummaryLabel>
-              <SummaryValue $color={getEntradaColor()}>{formatarMoeda(totalReceitas)}</SummaryValue>
-            </SummaryItem>
-            
-            <SummaryItem>
-              <SummaryLabel>Total de Saídas</SummaryLabel>
-              <SummaryValue $color={getSaidaColor()}>{formatarMoeda(totalDespesas)}</SummaryValue>
-            </SummaryItem>
-            
-            <SummaryDivider />
-            
-            <SummaryItem>
-              <SummaryLabel>Saldo</SummaryLabel>
-              <SummaryValue $color={getSaldoColor()}>{formatarMoeda(saldo)}</SummaryValue>
-            </SummaryItem>
-            
-            <SummaryItem>
-              <SummaryLabel>Percentual de Gastos</SummaryLabel>
-              <SummaryValue>
-                {totalReceitas > 0 ? `${Math.round((totalDespesas / totalReceitas) * 100)}%` : '0%'}
-              </SummaryValue>
-            </SummaryItem>
-          </SummaryContainer>
-        </ChartContent>
-        
-        <ChartsRow>
-          <BalanceLineChart totalReceitas={totalReceitas} totalDespesas={totalDespesas} />
-          <PieChartContainer>
-            <BalancePieChart totalReceitas={totalReceitas} totalDespesas={totalDespesas} />
-          </PieChartContainer>
-        </ChartsRow>
-      </ChartContainer>
-    </DashboardSection>
+          <SummaryItem>
+            <SummaryLabel>Total de Saídas</SummaryLabel>
+            <SummaryValue $color={getSaidaColor()}>{formatarMoeda(totalDespesas)}</SummaryValue>
+          </SummaryItem>
+          
+          <SummaryDivider />
+          
+          <SummaryItem>
+            <SummaryLabel>Saldo</SummaryLabel>
+            <SummaryValue $color={getSaldoColor()}>{formatarMoeda(saldo)}</SummaryValue>
+          </SummaryItem>
+          
+          <SummaryItem>
+            <SummaryLabel>Percentual de Gastos</SummaryLabel>
+            <SummaryValue>
+              {totalReceitas > 0 ? `${Math.round((totalDespesas / totalReceitas) * 100)}%` : '0%'}
+            </SummaryValue>
+          </SummaryItem>
+        </SummaryContainer>
+      </ChartContent>
+    </ChartContainer>
   );
 };
 
