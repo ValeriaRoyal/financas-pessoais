@@ -9,7 +9,7 @@ interface TransacaoListaProps {
 }
 
 const ListaContainer = styled.div`
-  background-color: white;
+  background-color: var(--surface);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   overflow: hidden;
@@ -20,7 +20,7 @@ const ListaHeader = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr auto;
   padding: 1rem;
   background-color: #f5f5f5;
-  font-weight: 500;
+  font-weight: 600;
   border-bottom: 1px solid #e0e0e0;
   
   @media (min-width: 768px) {
@@ -71,8 +71,8 @@ const Valor = styled.div<{ tipo: TipoTransacao | string }>`
       : props.tipo;
     
     return tipoEnum === TipoTransacao.RECEITA 
-      ? 'var(--success-color)' 
-      : 'var(--error-color)';
+      ? 'var(--success)' 
+      : 'var(--error)';
   }};
   font-weight: 500;
 `;
@@ -96,19 +96,31 @@ const AcoesContainer = styled.div`
 `;
 
 const BotaoAcao = styled.button`
-  background: none;
+  padding: 0.5rem 0.75rem;
   border: none;
-  cursor: pointer;
-  color: var(--primary-color);
-  padding: 0.25rem;
   border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+  &.editar {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    
+    &:hover {
+      background-color: #bbdefb;
+    }
   }
   
   &.excluir {
-    color: var(--error-color);
+    background-color: #ffebee;
+    color: #c62828;
+    
+    &:hover {
+      background-color: #ffcdd2;
+    }
   }
 `;
 
@@ -190,21 +202,22 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({
           
           <AcoesContainer>
             <BotaoAcao 
-              title="Editar" 
+              className="editar"
               onClick={() => onEditar(transacao)}
+              aria-label="Editar transação"
             >
-              ✏️
+              Editar
             </BotaoAcao>
             <BotaoAcao 
-              className="excluir" 
-              title="Excluir"
+              className="excluir"
               onClick={() => {
                 if (window.confirm('Tem certeza que deseja excluir esta transação?')) {
                   onExcluir(transacao.id);
                 }
               }}
+              aria-label="Excluir transação"
             >
-              🗑️
+              Excluir
             </BotaoAcao>
           </AcoesContainer>
         </ListaItem>

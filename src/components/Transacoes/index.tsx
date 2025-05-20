@@ -19,8 +19,8 @@ const ButtonsContainer = styled.div`
 `;
 
 const ActionButton = styled.button<{ primary?: boolean }>`
-  background-color: ${props => props.primary ? 'var(--primary-color)' : '#f0f0f0'};
-  color: ${props => props.primary ? 'white' : 'var(--text-color)'};
+  background-color: ${props => props.primary ? 'var(--primary)' : '#f0f0f0'};
+  color: ${props => props.primary ? 'white' : 'var(--textPrimary)'};
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: var(--border-radius);
@@ -28,12 +28,17 @@ const ActionButton = styled.button<{ primary?: boolean }>`
   font-weight: 500;
   
   &:hover {
-    background-color: ${props => props.primary ? 'var(--secondary-color)' : '#e0e0e0'};
+    background-color: ${props => props.primary ? 'var(--primaryDark)' : '#e0e0e0'};
   }
   
   &:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
 `;
 
@@ -72,7 +77,7 @@ const LoadingContainer = styled.div`
   align-items: center;
   padding: 2rem;
   font-size: 1.2rem;
-  color: var(--text-secondary);
+  color: var(--textSecondary);
 `;
 
 const ErrorContainer = styled.div`
@@ -81,6 +86,25 @@ const ErrorContainer = styled.div`
   padding: 1rem;
   border-radius: var(--border-radius);
   margin-bottom: 1rem;
+`;
+
+const SuccessMessage = styled.div`
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #2e7d32;
 `;
 
 const Transacoes: React.FC = () => {
@@ -94,25 +118,37 @@ const Transacoes: React.FC = () => {
   const [filtroAno, setFiltroAno] = useState<string>(new Date().getFullYear().toString());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   // Carregar transações da API
+  const carregarTransacoes = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await TransacaoModel.getAllTransacoes();
+      setTransacoes(data);
+    } catch (err) {
+      console.error('Erro ao carregar transações:', err);
+      setError('Não foi possível carregar as transações. Por favor, tente novamente mais tarde.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
   useEffect(() => {
-    const carregarTransacoes = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await TransacaoModel.getAllTransacoes();
-        setTransacoes(data);
-      } catch (err) {
-        console.error('Erro ao carregar transações:', err);
-        setError('Não foi possível carregar as transações. Por favor, tente novamente mais tarde.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
     carregarTransacoes();
   }, []);
+  
+  // Limpar mensagem de sucesso após 5 segundos
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
   
   const handleNovaTransacao = (tipo: TipoTransacao) => {
     setTipoFormulario(tipo);
@@ -138,20 +174,17 @@ const Transacoes: React.FC = () => {
       if (transacaoParaEditar) {
         // Atualizar transação existente
         await TransacaoModel.update(transacao.id, transacao);
-        
-        // Atualizar estado local
-        setTransacoes(transacoes.map(t => 
-          t.id === transacao.id ? transacao : t
-        ));
+        setSuccessMessage('Transação atualizada com sucesso!');
       } else {
         // Criar nova transação
-        const novaTransacao = await TransacaoModel.create(transacao);
-        
-        // Atualizar estado local
-        setTransacoes([...transacoes, novaTransacao]);
+        await TransacaoModel.create(transacao);
+        setSuccessMessage('Transação criada com sucesso!');
       }
       
+      // Recarregar todas as transações para garantir dados atualizados
+      await carregarTransacoes();
       setMostrarFormulario(false);
+      setTransacaoParaEditar(undefined);
     } catch (err) {
       console.error('Erro ao salvar transação:', err);
       setError('Não foi possível salvar a transação. Por favor, tente novamente mais tarde.');
@@ -168,8 +201,9 @@ const Transacoes: React.FC = () => {
       // Excluir transação da API
       await TransacaoModel.delete(id);
       
-      // Atualizar estado local
-      setTransacoes(transacoes.filter(t => t.id !== id));
+      // Recarregar todas as transações
+      await carregarTransacoes();
+      setSuccessMessage('Transação excluída com sucesso!');
     } catch (err) {
       console.error('Erro ao excluir transação:', err);
       setError('Não foi possível excluir a transação. Por favor, tente novamente mais tarde.');
@@ -201,6 +235,13 @@ const Transacoes: React.FC = () => {
       <h1>Transações</h1>
       
       {error && <ErrorContainer>{error}</ErrorContainer>}
+      
+      {successMessage && (
+        <SuccessMessage>
+          {successMessage}
+          <CloseButton onClick={() => setSuccessMessage(null)}>×</CloseButton>
+        </SuccessMessage>
+      )}
       
       <ButtonsContainer>
         <ActionButton 
