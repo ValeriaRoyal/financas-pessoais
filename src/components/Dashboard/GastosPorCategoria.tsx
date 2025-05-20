@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CategoriaTransacao, ResumoPorCategoria } from '../../types';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const ChartContainer = styled.div`
-  background-color: white;
+  background-color: var(--surface);
   border-radius: var(--border-radius);
   padding: 1.5rem;
   box-shadow: var(--box-shadow);
@@ -16,7 +17,7 @@ const ChartContainer = styled.div`
 const ChartTitle = styled.h3`
   margin-top: 0;
   margin-bottom: 1.5rem;
-  color: var(--text-color);
+  color: var(--textPrimary);
 `;
 
 const ChartLegend = styled.div`
@@ -47,12 +48,14 @@ const LegendText = styled.div`
 
 const CategoryName = styled.span`
   font-size: 0.9rem;
-  color: #333333; // Cor mais escura para melhor contraste
+  color: var(--textPrimary);
+  font-weight: 500;
 `;
 
 const CategoryValue = styled.span`
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--textPrimary);
 `;
 
 const BarChartContainer = styled.div`
@@ -70,12 +73,13 @@ const BarLabel = styled.div`
   justify-content: space-between;
   margin-bottom: 0.25rem;
   font-size: 0.85rem;
+  color: var(--textPrimary);
 `;
 
 const BarOuter = styled.div`
   width: 100%;
   height: 0.75rem;
-  background-color: #f0f0f0;
+  background-color: var(--border);
   border-radius: 4px;
   overflow: hidden;
 `;
@@ -102,6 +106,7 @@ const coresCategorias: Record<CategoriaTransacao, string> = {
 };
 
 const GastosPorCategoria: React.FC = () => {
+  const { theme } = useTheme();
   const [dados, setDados] = useState<ResumoPorCategoria[]>([]);
   
   // Simular carregamento de dados

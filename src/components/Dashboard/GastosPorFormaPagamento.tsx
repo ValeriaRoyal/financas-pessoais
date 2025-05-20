@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FormaPagamento, ResumoPorFormaPagamento } from '../../types';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const ChartContainer = styled.div`
-  background-color: white;
+  background-color: var(--surface);
   border-radius: var(--border-radius);
   padding: 1.5rem;
   box-shadow: var(--box-shadow);
@@ -12,7 +13,7 @@ const ChartContainer = styled.div`
 const ChartTitle = styled.h3`
   margin-top: 0;
   margin-bottom: 1.5rem;
-  color: var(--text-color);
+  color: var(--textPrimary);
 `;
 
 const DonutChartContainer = styled.div`
@@ -64,7 +65,7 @@ const DonutHole = styled.div`
   position: absolute;
   width: 60%;
   height: 60%;
-  background-color: white;
+  background-color: var(--surface);
   border-radius: 50%;
   top: 20%;
   left: 20%;
@@ -78,12 +79,14 @@ const DonutTotal = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
+  color: var(--textPrimary);
 `;
 
 const DonutLabel = styled.div`
   font-size: 0.8rem;
-  color: #333333; // Cor mais escura para melhor contraste
+  color: var(--textSecondary);
   text-align: center;
+  font-weight: 500;
 `;
 
 const ChartLegend = styled.div`
@@ -114,12 +117,14 @@ const LegendText = styled.div`
 
 const PaymentName = styled.span`
   font-size: 0.9rem;
-  color: #333333; // Cor mais escura para melhor contraste
+  color: var(--textPrimary);
+  font-weight: 500;
 `;
 
 const PaymentValue = styled.span`
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--textPrimary);
 `;
 
 // Cores para as formas de pagamento
@@ -134,6 +139,7 @@ const coresFormasPagamento: Record<FormaPagamento, string> = {
 };
 
 const GastosPorFormaPagamento: React.FC = () => {
+  const { theme } = useTheme();
   const [dados, setDados] = useState<ResumoPorFormaPagamento[]>([]);
   const [total, setTotal] = useState(0);
   

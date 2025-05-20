@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface BalanceChartProps {
   totalReceitas: number;
@@ -8,7 +9,7 @@ interface BalanceChartProps {
 }
 
 const ChartContainer = styled.div`
-  background-color: var(--surface-color);
+  background-color: var(--surface);
   border-radius: var(--border-radius);
   padding: var(--spacing-lg);
   box-shadow: var(--box-shadow);
@@ -18,7 +19,7 @@ const ChartContainer = styled.div`
 const ChartTitle = styled.h3`
   margin-top: 0;
   margin-bottom: var(--spacing-md);
-  color: var(--text-color);
+  color: var(--textPrimary);
   font-size: 1.1rem;
   font-weight: 500;
 `;
@@ -87,15 +88,17 @@ const Bar = styled.div<{ $height: string; $color: string }>`
 const BarLabel = styled.div`
   margin-top: var(--spacing-sm);
   font-size: 0.9rem;
-  color: #333333; // Cor mais escura para melhor contraste
+  color: var(--textPrimary);
   text-align: center;
+  font-weight: 600;
+  text-shadow: ${props => props.theme.name === 'dark' ? '0 0 2px rgba(0,0,0,0.8)' : 'none'};
 `;
 
 const BarValue = styled.div`
   font-size: 1rem;
   font-weight: 500;
   margin-top: var(--spacing-xs);
-  color: var(--text-color);
+  color: var(--textPrimary);
   
   @media (max-width: 320px) {
     font-size: 0.85rem;
@@ -109,7 +112,7 @@ const SummaryContainer = styled.div`
   flex-direction: column;
   gap: var(--spacing-md);
   padding: var(--spacing-md);
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: ${props => props.theme.name === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)'};
   border-radius: var(--border-radius);
 `;
 
@@ -121,32 +124,41 @@ const SummaryItem = styled.div`
 
 const SummaryLabel = styled.span`
   font-size: 0.9rem;
-  color: #595959; // Cor mais escura para melhor contraste
+  color: var(--textSecondary);
+  font-weight: 500;
 `;
 
 const SummaryValue = styled.span<{ $color?: string }>`
   font-size: 1.1rem;
-  font-weight: 500;
-  color: ${props => props.$color || '#333333'}; // Garantir contraste suficiente
+  font-weight: 600;
+  color: ${props => props.$color || 'var(--textPrimary)'};
 `;
 
 const SummaryDivider = styled.div`
   height: 1px;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: ${props => props.theme.name === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
   margin: var(--spacing-xs) 0;
 `;
 
 const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesas, saldo }) => {
+  const { theme } = useTheme();
+  
   // Calcular a altura máxima das barras
   const maxValue = Math.max(totalReceitas, totalDespesas);
   const receitasHeight = maxValue > 0 ? `${(totalReceitas / maxValue) * 100}%` : '0%';
   const despesasHeight = maxValue > 0 ? `${(totalDespesas / maxValue) * 100}%` : '0%';
   
-  // Determinar a cor do saldo com base no valor
+  // Determinar a cor do saldo com base no valor e no tema
   const getSaldoColor = () => {
-    if (saldo < 0) return '#8B0000'; // Vermelho mais escuro para saldo negativo
-    if (saldo < totalReceitas * 0.2) return '#B8860B'; // Amarelo mais escuro para saldo baixo
-    return '#006400'; // Verde mais escuro para saldo saudável
+    if (theme.name === 'dark') {
+      if (saldo < 0) return '#ff6666'; // Vermelho mais claro para tema escuro
+      if (saldo < totalReceitas * 0.2) return '#ffcc66'; // Amarelo mais claro para tema escuro
+      return '#66cc66'; // Verde mais claro para tema escuro
+    } else {
+      if (saldo < 0) return '#8B0000'; // Vermelho mais escuro para saldo negativo
+      if (saldo < totalReceitas * 0.2) return '#B8860B'; // Amarelo mais escuro para saldo baixo
+      return '#006400'; // Verde mais escuro para saldo saudável
+    }
   };
   
   // Formatar valores como moeda brasileira
@@ -157,6 +169,10 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
     }).format(valor);
   };
   
+  // Cores para as barras adaptadas ao tema
+  const getEntradaColor = () => theme.name === 'dark' ? '#66cc66' : '#006400';
+  const getSaidaColor = () => theme.name === 'dark' ? '#ff6666' : '#8B0000';
+  
   return (
     <ChartContainer>
       <ChartTitle>Balanço Financeiro</ChartTitle>
@@ -165,13 +181,13 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
         <ChartVisual>
           <BarContainer>
             <BarGroup>
-              <Bar $height={receitasHeight} $color="#006400" />
+              <Bar $height={receitasHeight} $color={getEntradaColor()} />
               <BarLabel>Entradas</BarLabel>
               <BarValue>{formatarMoeda(totalReceitas)}</BarValue>
             </BarGroup>
             
             <BarGroup>
-              <Bar $height={despesasHeight} $color="#8B0000" />
+              <Bar $height={despesasHeight} $color={getSaidaColor()} />
               <BarLabel>Saídas</BarLabel>
               <BarValue>{formatarMoeda(totalDespesas)}</BarValue>
             </BarGroup>
@@ -181,12 +197,12 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
         <SummaryContainer>
           <SummaryItem>
             <SummaryLabel>Total de Entradas</SummaryLabel>
-            <SummaryValue $color="#006400">{formatarMoeda(totalReceitas)}</SummaryValue>
+            <SummaryValue $color={getEntradaColor()}>{formatarMoeda(totalReceitas)}</SummaryValue>
           </SummaryItem>
           
           <SummaryItem>
             <SummaryLabel>Total de Saídas</SummaryLabel>
-            <SummaryValue $color="#8B0000">{formatarMoeda(totalDespesas)}</SummaryValue>
+            <SummaryValue $color={getSaidaColor()}>{formatarMoeda(totalDespesas)}</SummaryValue>
           </SummaryItem>
           
           <SummaryDivider />
