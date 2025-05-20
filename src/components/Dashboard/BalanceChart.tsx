@@ -9,6 +9,12 @@ interface BalanceChartProps {
   saldo: number;
 }
 
+const DashboardSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+`;
+
 const ChartContainer = styled.div`
   background-color: var(--surface);
   border-radius: var(--border-radius);
@@ -175,7 +181,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
   const getSaidaColor = () => theme.name === 'dark' ? '#ff6666' : '#8B0000';
   
   return (
-    <>
+    <DashboardSection>
       <ChartContainer>
         <ChartTitle>Balanço Financeiro</ChartTitle>
         
@@ -226,7 +232,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
       
       {/* Gráfico de linha para mostrar evolução ao longo do tempo */}
       <BalanceLineChart totalReceitas={totalReceitas} totalDespesas={totalDespesas} />
-    </>
+    </DashboardSection>
   );
 };
 
