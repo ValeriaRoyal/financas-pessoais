@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
 import BalanceLineChart from './BalanceLineChart';
+import BalancePieChart from './BalancePieChart';
 
 interface BalanceChartProps {
   totalReceitas: number;
@@ -147,6 +148,28 @@ const SummaryDivider = styled.div`
   margin: var(--spacing-xs) 0;
 `;
 
+const ChartsRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+  
+  @media (min-width: 768px) {
+    grid-template-columns: 2fr 1fr;
+  }
+`;
+
+const PieChartContainer = styled.div`
+  background-color: var(--surface);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  box-shadow: var(--box-shadow);
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesas, saldo }) => {
   const { theme } = useTheme();
   
@@ -228,10 +251,14 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ totalReceitas, totalDespesa
             </SummaryItem>
           </SummaryContainer>
         </ChartContent>
+        
+        <ChartsRow>
+          <BalanceLineChart totalReceitas={totalReceitas} totalDespesas={totalDespesas} />
+          <PieChartContainer>
+            <BalancePieChart totalReceitas={totalReceitas} totalDespesas={totalDespesas} />
+          </PieChartContainer>
+        </ChartsRow>
       </ChartContainer>
-      
-      {/* Gráfico de linha para mostrar evolução ao longo do tempo */}
-      <BalanceLineChart totalReceitas={totalReceitas} totalDespesas={totalDespesas} />
     </DashboardSection>
   );
 };
