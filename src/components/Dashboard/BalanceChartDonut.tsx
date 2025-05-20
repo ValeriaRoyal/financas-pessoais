@@ -71,15 +71,23 @@ const DonutHole = styled.div`
   flex-direction: column;
 `;
 
-const DonutTotal = styled.div`
-  font-size: 1.2rem;
+const DonutValues = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+`;
+
+const DonutValue = styled.div<{ $color: string }>`
+  font-size: 0.9rem;
   font-weight: bold;
   text-align: center;
-  color: var(--textPrimary);
+  color: ${props => props.$color};
 `;
 
 const DonutLabel = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--textSecondary);
   text-align: center;
   font-weight: 500;
@@ -88,7 +96,7 @@ const DonutLabel = styled.div`
 const BalanceChartDonut: React.FC<BalanceChartDonutProps> = ({ totalReceitas, totalDespesas }) => {
   const { theme } = useTheme();
   
-  // Calcular o total e os percentuais
+  // Calcular os percentuais
   const total = totalReceitas + totalDespesas;
   const percentualReceitas = total > 0 ? (totalReceitas / total) * 100 : 0;
   const percentualDespesas = total > 0 ? (totalDespesas / total) * 100 : 0;
@@ -147,8 +155,14 @@ const BalanceChartDonut: React.FC<BalanceChartDonutProps> = ({ totalReceitas, to
           />
         ))}
         <DonutHole>
-          <DonutTotal>{formatarMoeda(total)}</DonutTotal>
-          <DonutLabel>Total</DonutLabel>
+          <DonutValues>
+            <DonutValue $color={getEntradaColor()}>
+              {formatarMoeda(totalReceitas)}
+            </DonutValue>
+            <DonutValue $color={getSaidaColor()}>
+              {formatarMoeda(totalDespesas)}
+            </DonutValue>
+          </DonutValues>
         </DonutHole>
       </DonutChart>
     </DonutChartContainer>
