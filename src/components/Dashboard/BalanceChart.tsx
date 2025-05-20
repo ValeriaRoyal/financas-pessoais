@@ -91,7 +91,7 @@ const BarLabel = styled.div`
   color: var(--textPrimary);
   text-align: center;
   font-weight: 600;
-  text-shadow: ${props => props.theme.name === 'dark' ? '0 0 2px rgba(0,0,0,0.8)' : 'none'};
+  text-shadow: 0 0 2px rgba(0,0,0,0.3);
 `;
 
 const BarValue = styled.div`
@@ -112,7 +112,8 @@ const SummaryContainer = styled.div`
   flex-direction: column;
   gap: var(--spacing-md);
   padding: var(--spacing-md);
-  background-color: ${props => props.theme.name === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)'};
+  background-color: var(--surface);
+  opacity: 0.9;
   border-radius: var(--border-radius);
 `;
 
@@ -136,7 +137,7 @@ const SummaryValue = styled.span<{ $color?: string }>`
 
 const SummaryDivider = styled.div`
   height: 1px;
-  background-color: ${props => props.theme.name === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+  background-color: var(--border);
   margin: var(--spacing-xs) 0;
 `;
 
