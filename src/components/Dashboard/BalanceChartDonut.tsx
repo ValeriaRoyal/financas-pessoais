@@ -70,44 +70,42 @@ const DonutHole = styled.div`
 const BalanceChartDonut: React.FC<BalanceChartDonutProps> = ({ totalReceitas, totalDespesas }) => {
   const { theme } = useTheme();
   
-  // Calcular os percentuais
-  const total = totalReceitas + totalDespesas;
-  const percentualReceitas = total > 0 ? (totalReceitas / total) * 100 : 0;
-  const percentualDespesas = total > 0 ? (totalDespesas / total) * 100 : 0;
-  
-  // Criar dados para o gráfico
-  const dados: ItemBalanco[] = [
-    { tipo: 'Entradas', valor: totalReceitas, percentual: percentualReceitas },
-    { tipo: 'Saídas', valor: totalDespesas, percentual: percentualDespesas }
-  ];
-  
   // Cores para os tipos de transação
   const getEntradaColor = () => theme.name === 'dark' ? '#66cc66' : '#006400';
   const getSaidaColor = () => theme.name === 'dark' ? '#ff6666' : '#8B0000';
   
-  const coresTipos: Record<string, string> = {
-    'Entradas': getEntradaColor(),
-    'Saídas': getSaidaColor()
-  };
-  
-  // Calcular ângulos para o gráfico de rosca
-  const calcularSegmentos = () => {
-    let rotacaoAtual = 0;
+  // Criar segmentos para o gráfico
+  const criarSegmentos = () => {
+    const total = totalReceitas + totalDespesas;
     
-    return dados.map(item => {
-      const angulo = 3.6 * item.percentual; // 3.6 = 360 / 100
-      const segmento = {
-        rotacao: rotacaoAtual,
-        angulo: angulo,
-        cor: coresTipos[item.tipo]
-      };
-      
-      rotacaoAtual += angulo;
-      return segmento;
-    });
+    // Se não houver valores, retornar um círculo vazio
+    if (total === 0) {
+      return [{
+        rotacao: 0,
+        angulo: 360,
+        cor: 'var(--border)'
+      }];
+    }
+    
+    // Calcular ângulos
+    const anguloReceitas = (totalReceitas / total) * 360;
+    const anguloSaidas = 360 - anguloReceitas;
+    
+    return [
+      {
+        rotacao: 0,
+        angulo: anguloReceitas,
+        cor: getEntradaColor()
+      },
+      {
+        rotacao: anguloReceitas,
+        angulo: anguloSaidas,
+        cor: getSaidaColor()
+      }
+    ];
   };
   
-  const segmentos = calcularSegmentos();
+  const segmentos = criarSegmentos();
   
   return (
     <DonutChartContainer>
