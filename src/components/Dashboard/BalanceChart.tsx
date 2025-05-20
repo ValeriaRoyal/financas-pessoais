@@ -125,8 +125,8 @@ const SummaryItem = styled.div`
 
 const SummaryLabel = styled.span`
   font-size: 0.9rem;
-  color: var(--textSecondary);
-  font-weight: 500;
+  color: var(--textPrimary);
+  font-weight: 600;
 `;
 
 const SummaryValue = styled.span<{ $color?: string }>`

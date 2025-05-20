@@ -30,7 +30,7 @@ export const darkTheme = {
     primaryDark: '#9a67ea',
     secondary: '#03dac6',
     textPrimary: '#ffffff',
-    textSecondary: '#cccccc', // Aumentado o contraste de #b0b0b0 para #cccccc
+    textSecondary: '#e0e0e0', // Aumentado o contraste de #cccccc para #e0e0e0
     error: '#cf6679',
     success: '#81c784',
     warning: '#ffb74d',

@@ -61,8 +61,8 @@ const IconContainer = styled.div<{ $corIcone: string }>`
 const CardTitle = styled.h3`
   margin: 0;
   font-size: 1rem;
-  color: var(--textSecondary);
-  font-weight: 500;
+  color: var(--textPrimary);
+  font-weight: 600;
 `;
 
 const CardValue = styled.div`
@@ -103,8 +103,9 @@ const TendenciaIcone = styled.span`
 `;
 
 const TendenciaTexto = styled.span`
-  color: var(--textSecondary);
+  color: var(--textPrimary);
   font-size: 0.9rem;
+  font-weight: 500;
 `;
 
 const formatarMoeda = (valor: number) => {
