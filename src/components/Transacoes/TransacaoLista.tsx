@@ -22,9 +22,31 @@ const ListaHeader = styled.div`
   background-color: #f5f5f5;
   font-weight: 600;
   border-bottom: 1px solid #e0e0e0;
+  align-items: center;
   
   @media (min-width: 768px) {
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+  }
+`;
+
+const HeaderItem = styled.div`
+  text-align: left;
+  padding: 0 0.5rem;
+  
+  &.valor {
+    text-align: right;
+  }
+  
+  &.acoes {
+    text-align: center;
+  }
+  
+  &.data {
+    text-align: center;
+  }
+  
+  &.categoria, &.forma-pagto {
+    text-align: left;
   }
 `;
 
@@ -33,6 +55,7 @@ const ListaItem = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr auto;
   padding: 1rem;
   border-bottom: 1px solid #f0f0f0;
+  align-items: center;
   
   &:last-child {
     border-bottom: none;
@@ -58,12 +81,32 @@ const MobileLabel = styled.span`
   }
 `;
 
-const Descricao = styled.div`
+const CelulaItem = styled.div`
+  padding: 0 0.5rem;
+  
+  &.valor {
+    text-align: right;
+  }
+  
+  &.acoes {
+    text-align: center;
+  }
+  
+  &.data {
+    text-align: center;
+  }
+  
+  &.categoria, &.forma-pagto {
+    text-align: left;
+  }
+`;
+
+const Descricao = styled(CelulaItem)`
   font-weight: 500;
 `;
 
 // Modificado para aceitar string ou enum
-const Valor = styled.div<{ tipo: TipoTransacao | string }>`
+const Valor = styled(CelulaItem)<{ tipo: TipoTransacao | string }>`
   color: ${props => {
     // Converter string para enum se necessário
     const tipoEnum = typeof props.tipo === 'string' 
@@ -75,13 +118,15 @@ const Valor = styled.div<{ tipo: TipoTransacao | string }>`
       : 'var(--error)';
   }};
   font-weight: 500;
+  text-align: right;
 `;
 
-const Data = styled.div`
+const Data = styled(CelulaItem)`
   color: #666;
+  text-align: center;
 `;
 
-const Categoria = styled.div`
+const Categoria = styled(CelulaItem)`
   display: none;
   
   @media (min-width: 768px) {
@@ -89,10 +134,11 @@ const Categoria = styled.div`
   }
 `;
 
-const AcoesContainer = styled.div`
+const AcoesContainer = styled(CelulaItem)`
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
+  text-align: center;
 `;
 
 const BotaoAcao = styled.button`
@@ -162,12 +208,12 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({
   return (
     <ListaContainer>
       <ListaHeader>
-        <div>Descrição</div>
-        <div>Valor</div>
-        <div>Data</div>
-        <div className="desktop-only">Categoria</div>
-        <div className="desktop-only">Forma Pagto</div>
-        <div>Ações</div>
+        <HeaderItem>Descrição</HeaderItem>
+        <HeaderItem className="valor">Valor</HeaderItem>
+        <HeaderItem className="data">Data</HeaderItem>
+        <HeaderItem className="categoria desktop-only">Categoria</HeaderItem>
+        <HeaderItem className="forma-pagto desktop-only">Forma Pagto</HeaderItem>
+        <HeaderItem className="acoes">Ações</HeaderItem>
       </ListaHeader>
       
       {transacoes.map(transacao => (
@@ -177,7 +223,7 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({
             {transacao.descricao}
           </Descricao>
           
-          <Valor tipo={transacao.tipo}>
+          <Valor tipo={transacao.tipo} className="valor">
             <MobileLabel>Valor</MobileLabel>
             {typeof transacao.tipo === 'string' 
               ? (transacao.tipo === 'Despesa' ? '- ' : '+ ')
@@ -185,22 +231,22 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({
             {formatarMoeda(transacao.valor)}
           </Valor>
           
-          <Data>
+          <Data className="data">
             <MobileLabel>Data</MobileLabel>
             {formatarData(transacao.data)}
           </Data>
           
-          <Categoria>
+          <Categoria className="categoria">
             <MobileLabel>Categoria</MobileLabel>
             {transacao.categoria}
           </Categoria>
           
-          <Categoria>
+          <Categoria className="forma-pagto">
             <MobileLabel>Forma Pagto</MobileLabel>
             {transacao.formaPagamento}
           </Categoria>
           
-          <AcoesContainer>
+          <AcoesContainer className="acoes">
             <BotaoAcao 
               className="editar"
               onClick={() => onEditar(transacao)}
