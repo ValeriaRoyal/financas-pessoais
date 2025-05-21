@@ -50,8 +50,8 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
-  font-weight: 600;
-  color: #333333;
+  font-weight: 700;
+  color: var(--textPrimary);
 `;
 
 const Input = styled.input`
@@ -113,12 +113,12 @@ const Button = styled.button<{ $primary?: boolean }>`
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  background-color: ${props => props.$primary ? 'var(--primary)' : '#e0e0e0'};
+  background-color: ${props => props.$primary ? 'var(--primaryDark)' : '#e0e0e0'};
   color: ${props => props.$primary ? 'white' : '#333333'};
   min-width: 120px;
   
   &:hover {
-    background-color: ${props => props.$primary ? 'var(--primaryDark)' : '#d0d0d0'};
+    background-color: ${props => props.$primary ? 'var(--primary)' : '#d0d0d0'};
   }
   
   &:focus {

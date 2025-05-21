@@ -19,9 +19,9 @@ const ListaHeader = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr auto;
   padding: 1rem;
-  background-color: #f0f0f0;
+  background-color: var(--surface);
   font-weight: 600;
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid var(--border);
   align-items: center;
   
   @media (min-width: 768px) {
@@ -32,7 +32,7 @@ const ListaHeader = styled.div`
 const HeaderItem = styled.div`
   text-align: left;
   padding: 0 0.5rem;
-  color: #333333;
+  color: var(--textPrimary);
   font-weight: 700;
   
   &.valor {
@@ -75,8 +75,8 @@ const ListaItem = styled.div`
 const MobileLabel = styled.span`
   display: block;
   font-size: 0.75rem;
-  color: #333333;
-  font-weight: 600;
+  color: var(--textPrimary);
+  font-weight: 700;
   margin-bottom: 0.25rem;
   
   @media (min-width: 768px) {
@@ -125,8 +125,9 @@ const Valor = styled(CelulaItem)<{ $tipo: TipoTransacao | string }>`
 `;
 
 const Data = styled(CelulaItem)`
-  color: #333333;
+  color: var(--textPrimary);
   text-align: center;
+  font-weight: 600;
 `;
 
 const Categoria = styled(CelulaItem)`
@@ -176,7 +177,7 @@ const BotaoAcao = styled.button`
 const EmptyState = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #333333;
+  color: var(--textPrimary);
   font-weight: 500;
 `;
 

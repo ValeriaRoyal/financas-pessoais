@@ -25,9 +25,9 @@ export const darkTheme = {
   colors: {
     background: '#121212',
     surface: '#1e1e1e',
-    primary: '#bb86fc',
+    primary: '#9a67ea', // Alterado de #bb86fc para #9a67ea para melhor contraste
     primaryLight: '#d4a4ff',
-    primaryDark: '#9a67ea',
+    primaryDark: '#6200ee', // Alterado para uma cor mais escura para melhor contraste
     secondary: '#03dac6',
     textPrimary: '#ffffff',
     textSecondary: '#e0e0e0', // Aumentado o contraste de #cccccc para #e0e0e0
