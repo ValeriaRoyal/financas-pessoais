@@ -21,9 +21,6 @@ const FormContainer = styled.form`
   border-radius: var(--border-radius);
   padding: 1.5rem;
   box-shadow: var(--box-shadow);
-  max-height: 80vh;
-  overflow-y: auto;
-  position: relative;
 `;
 
 const FormTitle = styled.h2`
@@ -98,12 +95,6 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 2rem;
-  position: sticky;
-  bottom: 0;
-  background-color: white;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  z-index: 10;
 `;
 
 const Button = styled.button<{ $primary?: boolean }>`
