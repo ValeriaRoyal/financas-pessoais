@@ -17,10 +17,13 @@ interface TransacaoFormProps {
 }
 
 const FormContainer = styled.form`
-  background-color: white;
+  background-color: var(--surface);
   border-radius: var(--border-radius);
   padding: 1.5rem;
   box-shadow: var(--box-shadow);
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
 `;
 
 const FormTitle = styled.h2`
@@ -94,6 +97,12 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 2rem;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  z-index: 10;
 `;
 
 const Button = styled.button<{ primary?: boolean }>`
@@ -103,15 +112,16 @@ const Button = styled.button<{ primary?: boolean }>`
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  background-color: ${props => props.primary ? 'var(--primary-color)' : '#f0f0f0'};
-  color: ${props => props.primary ? 'white' : 'var(--text-color)'};
+  background-color: ${props => props.primary ? 'var(--primary)' : '#f0f0f0'};
+  color: ${props => props.primary ? 'white' : 'var(--textPrimary)'};
+  min-width: 120px;
   
   &:hover {
-    background-color: ${props => props.primary ? 'var(--secondary-color)' : '#e0e0e0'};
+    background-color: ${props => props.primary ? 'var(--primaryDark)' : '#e0e0e0'};
   }
   
   &:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
 `;
@@ -268,8 +278,10 @@ const TransacaoForm: React.FC<TransacaoFormProps> = ({
     onSalvar(novaTransacao);
   };
   
-  const formColor = tipo === TipoTransacao.RECEITA ? 'var(--success-color)' : 'var(--error-color)';
-  const formTitle = tipo === TipoTransacao.RECEITA ? 'Nova Receita' : 'Nova Despesa';
+  const formColor = tipo === TipoTransacao.RECEITA ? 'var(--success)' : 'var(--error)';
+  const formTitle = transacaoParaEditar 
+    ? `Editar ${tipo === TipoTransacao.RECEITA ? 'Receita' : 'Despesa'}`
+    : `Nova ${tipo === TipoTransacao.RECEITA ? 'Receita' : 'Despesa'}`;
   
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -435,7 +447,7 @@ const TransacaoForm: React.FC<TransacaoFormProps> = ({
           Cancelar
         </Button>
         <Button type="submit" primary>
-          Salvar
+          {transacaoParaEditar ? 'Atualizar' : 'Salvar'}
         </Button>
       </ButtonsContainer>
     </FormContainer>
