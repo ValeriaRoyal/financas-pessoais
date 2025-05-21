@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 import TransacoesView from './views/Transacoes';
@@ -10,10 +11,11 @@ import NotFound from './views/NotFound/index';
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider>
-      <GlobalStyles />
-      <Router>
-        <Routes>
+    <HelmetProvider>
+      <ThemeProvider>
+        <GlobalStyles />
+        <Router>
+          <Routes>
           <Route path="/" element={
             <Layout title="Dashboard">
               <Dashboard />

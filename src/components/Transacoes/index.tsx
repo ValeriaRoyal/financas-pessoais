@@ -19,16 +19,16 @@ const ButtonsContainer = styled.div`
 `;
 
 const ActionButton = styled.button<{ $primary?: boolean }>`
-  background-color: ${props => props.$primary ? 'var(--primary)' : '#f0f0f0'};
-  color: ${props => props.$primary ? 'white' : 'var(--textPrimary)'};
+  background-color: ${props => props.$primary ? 'var(--primary)' : '#e0e0e0'};
+  color: ${props => props.$primary ? 'white' : '#333333'};
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: var(--border-radius);
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   
   &:hover {
-    background-color: ${props => props.$primary ? 'var(--primaryDark)' : '#e0e0e0'};
+    background-color: ${props => props.$primary ? 'var(--primaryDark)' : '#d0d0d0'};
   }
   
   &:focus {
@@ -60,8 +60,9 @@ const FilterGroup = styled.div`
 `;
 
 const FilterLabel = styled.label`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
+  color: #333333;
 `;
 
 const FilterSelect = styled.select`

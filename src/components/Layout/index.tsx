@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Sidebar from '../Sidebar';
 import Header from './Header';
 import { fadeIn, slideInUp } from '../../styles/animations';

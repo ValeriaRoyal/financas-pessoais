@@ -19,9 +19,9 @@ const ListaHeader = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr auto;
   padding: 1rem;
-  background-color: #f5f5f5;
+  background-color: #f0f0f0;
   font-weight: 600;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #d0d0d0;
   align-items: center;
   
   @media (min-width: 768px) {
@@ -32,6 +32,8 @@ const ListaHeader = styled.div`
 const HeaderItem = styled.div`
   text-align: left;
   padding: 0 0.5rem;
+  color: #333333;
+  font-weight: 700;
   
   &.valor {
     text-align: right;
@@ -73,7 +75,8 @@ const ListaItem = styled.div`
 const MobileLabel = styled.span`
   display: block;
   font-size: 0.75rem;
-  color: #666;
+  color: #333333;
+  font-weight: 600;
   margin-bottom: 0.25rem;
   
   @media (min-width: 768px) {
@@ -122,7 +125,7 @@ const Valor = styled(CelulaItem)<{ $tipo: TipoTransacao | string }>`
 `;
 
 const Data = styled(CelulaItem)`
-  color: #666;
+  color: #333333;
   text-align: center;
 `;
 
@@ -173,7 +176,8 @@ const BotaoAcao = styled.button`
 const EmptyState = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #666;
+  color: #333333;
+  font-weight: 500;
 `;
 
 const TransacaoLista: React.FC<TransacaoListaProps> = ({ 
