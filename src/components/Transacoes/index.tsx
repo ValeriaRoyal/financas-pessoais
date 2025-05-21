@@ -18,9 +18,9 @@ const ButtonsContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const ActionButton = styled.button<{ primary?: boolean }>`
-  background-color: ${props => props.primary ? 'var(--primary)' : '#f0f0f0'};
-  color: ${props => props.primary ? 'white' : 'var(--textPrimary)'};
+const ActionButton = styled.button<{ $primary?: boolean }>`
+  background-color: ${props => props.$primary ? 'var(--primary)' : '#f0f0f0'};
+  color: ${props => props.$primary ? 'white' : 'var(--textPrimary)'};
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: var(--border-radius);
@@ -28,7 +28,7 @@ const ActionButton = styled.button<{ primary?: boolean }>`
   font-weight: 500;
   
   &:hover {
-    background-color: ${props => props.primary ? 'var(--primaryDark)' : '#e0e0e0'};
+    background-color: ${props => props.$primary ? 'var(--primaryDark)' : '#e0e0e0'};
   }
   
   &:focus {
@@ -243,14 +243,14 @@ const Transacoes: React.FC = () => {
       
       <ButtonsContainer>
         <ActionButton 
-          primary 
+          $primary 
           onClick={() => handleNovaTransacao(TipoTransacao.RECEITA)}
           disabled={isLoading}
         >
           Nova Receita
         </ActionButton>
         <ActionButton 
-          primary 
+          $primary 
           onClick={() => handleNovaTransacao(TipoTransacao.DESPESA)}
           disabled={isLoading}
         >

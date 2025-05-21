@@ -106,12 +106,12 @@ const Descricao = styled(CelulaItem)`
 `;
 
 // Modificado para aceitar string ou enum
-const Valor = styled(CelulaItem)<{ tipo: TipoTransacao | string }>`
+const Valor = styled(CelulaItem)<{ $tipo: TipoTransacao | string }>`
   color: ${props => {
     // Converter string para enum se necessário
-    const tipoEnum = typeof props.tipo === 'string' 
-      ? (props.tipo === 'Receita' ? TipoTransacao.RECEITA : TipoTransacao.DESPESA)
-      : props.tipo;
+    const tipoEnum = typeof props.$tipo === 'string' 
+      ? (props.$tipo === 'Receita' ? TipoTransacao.RECEITA : TipoTransacao.DESPESA)
+      : props.$tipo;
     
     return tipoEnum === TipoTransacao.RECEITA 
       ? 'var(--success)' 
@@ -152,20 +152,20 @@ const BotaoAcao = styled.button`
   justify-content: center;
   
   &.editar {
-    background-color: #e3f2fd;
-    color: #1976d2;
+    background-color: #0d47a1;
+    color: white;
     
     &:hover {
-      background-color: #bbdefb;
+      background-color: #1565c0;
     }
   }
   
   &.excluir {
-    background-color: #ffebee;
-    color: #c62828;
+    background-color: #b71c1c;
+    color: white;
     
     &:hover {
-      background-color: #ffcdd2;
+      background-color: #c62828;
     }
   }
 `;
@@ -223,7 +223,7 @@ const TransacaoLista: React.FC<TransacaoListaProps> = ({
             {transacao.descricao}
           </Descricao>
           
-          <Valor tipo={transacao.tipo} className="valor">
+          <Valor $tipo={transacao.tipo} className="valor">
             <MobileLabel>Valor</MobileLabel>
             {typeof transacao.tipo === 'string' 
               ? (transacao.tipo === 'Despesa' ? '- ' : '+ ')

@@ -105,19 +105,19 @@ const ButtonsContainer = styled.div`
   z-index: 10;
 `;
 
-const Button = styled.button<{ primary?: boolean }>`
+const Button = styled.button<{ $primary?: boolean }>`
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: var(--border-radius);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  background-color: ${props => props.primary ? 'var(--primary)' : '#f0f0f0'};
-  color: ${props => props.primary ? 'white' : 'var(--textPrimary)'};
+  background-color: ${props => props.$primary ? 'var(--primary)' : '#f0f0f0'};
+  color: ${props => props.$primary ? 'white' : 'var(--textPrimary)'};
   min-width: 120px;
   
   &:hover {
-    background-color: ${props => props.primary ? 'var(--primaryDark)' : '#e0e0e0'};
+    background-color: ${props => props.$primary ? 'var(--primaryDark)' : '#e0e0e0'};
   }
   
   &:focus {
@@ -446,7 +446,7 @@ const TransacaoForm: React.FC<TransacaoFormProps> = ({
         <Button type="button" onClick={onCancelar}>
           Cancelar
         </Button>
-        <Button type="submit" primary>
+        <Button type="submit" $primary>
           {transacaoParaEditar ? 'Atualizar' : 'Salvar'}
         </Button>
       </ButtonsContainer>
