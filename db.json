@@ -1,135 +1,175 @@
 {
-     "transacoes": [
-       {
-         "id": "1",
-         "descricao": "Salário",
-         "valor": 5000,
-         "data": "2025-05-05",
-         "tipo": "Receita",
-         "categoria": "Outros",
-         "formaPagamento": "Transferência",
-         "recorrente": true,
-         "parcelado": false
-       },
-       {
-         "id": "2",
-         "descricao": "Aluguel",
-         "valor": 1200,
-         "data": "2025-05-10",
-         "tipo": "Despesa",
-         "categoria": "Moradia",
-         "formaPagamento": "Transferência",
-         "tipoDespesa": "Fixa",
-         "recorrente": true,
-         "parcelado": false
-       },
-       {
-         "id": "3",
-         "descricao": "Supermercado",
-         "valor": 500,
-         "data": "2025-05-12",
-         "tipo": "Despesa",
-         "categoria": "Alimentação",
-         "formaPagamento": "Crédito",
-         "tipoDespesa": "Variável",
-         "cartaoId": "1",
-         "recorrente": false,
-         "parcelado": false
-       },
-       {
-         "id": "4",
-         "descricao": "Curso de Inglês",
-         "valor": 300,
-         "data": "2025-05-15",
-         "tipo": "Despesa",
-         "categoria": "Educação",
-         "formaPagamento": "Crédito",
-         "tipoDespesa": "Fixa",
-         "cartaoId": "1",
-         "recorrente": true,
-         "parcelado": false
-       },
-       {
-         "id": "5",
-         "descricao": "Freelance",
-         "valor": 1200,
-         "data": "2025-05-18",
-         "tipo": "Receita",
-         "categoria": "Outros",
-         "formaPagamento": "PIX",
-         "recorrente": false,
-         "parcelado": false
-       }
-     ],
-     "cartoes": [
-       {
-         "id": "1",
-         "nome": "Nubank",
-         "bandeira": "Mastercard",
-         "limite": 5000,
-         "fechamento": 10,
-         "vencimento": 17,
-         "cor": "#8A05BE"
-       },
-       {
-         "id": "2",
-         "nome": "Itaú",
-         "bandeira": "Visa",
-         "limite": 8000,
-         "fechamento": 15,
-         "vencimento": 22,
-         "cor": "#EC7000"
-       }
-     ],
-     "resumo": {
-       "totalReceitas": 6200,
-       "totalDespesas": 3500,
-       "saldo": 2700,
-       "totalDespesasFixas": 2000,
-       "totalDespesasVariaveis": 1500,
-       "totalCartaoCredito": 1200,
-       "totalReserva": 10000,
-       "totalInvestimentos": 25000
-     },
-     "categorias": [
-       {"id": "1", "nome": "Alimentação", "icone": "🍔"},
-       {"id": "2", "nome": "Moradia", "icone": "🏠"},
-       {"id": "3", "nome": "Transporte", "icone": "🚗"},
-       {"id": "4", "nome": "Saúde", "icone": "⚕️"},
-       {"id": "5", "nome": "Educação", "icone": "📚"},
-       {"id": "6", "nome": "Lazer", "icone": "🎮"},
-       {"id": "7", "nome": "Vestuário", "icone": "👕"},
-       {"id": "8", "nome": "Serviços", "icone": "🔧"},
-       {"id": "9", "nome": "Investimentos", "icone": "📈"},
-       {"id": "10", "nome": "Outros", "icone": "📦"}
-     ],
-     "notificacoes": [
-       {
-         "id": "1",
-         "tipo": "dica",
-         "titulo": "Economize com a regra 50-30-20",
-         "mensagem": "Tente dividir seu orçamento assim: 50% para necessidades, 30% para desejos e 20% para poupança e investimentos.",
-         "data": "2025-05-18T10:30:00",
-         "lida": false,
-         "icone": "💡"
-       },
-       {
-         "id": "2",
-         "tipo": "alerta",
-         "titulo": "Gastos com alimentação acima do normal",
-         "mensagem": "Seus gastos com alimentação estão 30% acima da média dos últimos 3 meses.",
-         "data": "2025-05-17T14:15:00",
-         "lida": false,
-         "icone": "⚠️"
-       },
-       {
-         "id": "3",
-         "tipo": "lembrete",
-         "titulo": "Fatura do cartão vence em 3 dias",
-         "mensagem": "A fatura do seu cartão Nubank no valor de R$ 1.200,00 vence em 17/05/2025.",
-         "data": "2025-05-14T09:00:00",
-         "lida": true,
-         "icone": "🔔"
-       }
-     ]
-   }
+  "transacoes": [
+    {
+      "id": "1",
+      "descricao": "Salário",
+      "valor": 5000,
+      "data": "2025-05-05",
+      "tipo": "Receita",
+      "categoria": "Outros",
+      "formaPagamento": "Transferência",
+      "recorrente": true,
+      "parcelado": false
+    },
+    {
+      "id": "2",
+      "descricao": "Aluguel",
+      "valor": 1200,
+      "data": "2025-05-10",
+      "tipo": "Despesa",
+      "categoria": "Moradia",
+      "formaPagamento": "Transferência",
+      "tipoDespesa": "Fixa",
+      "recorrente": true,
+      "parcelado": false
+    },
+    {
+      "id": "3",
+      "descricao": "Supermercado",
+      "valor": 500,
+      "data": "2025-05-12",
+      "tipo": "Despesa",
+      "categoria": "Alimentação",
+      "formaPagamento": "Crédito",
+      "tipoDespesa": "Variável",
+      "cartaoId": "1",
+      "recorrente": false,
+      "parcelado": false
+    },
+    {
+      "id": "4",
+      "descricao": "Curso de Inglês",
+      "valor": 300,
+      "data": "2025-05-15",
+      "tipo": "Despesa",
+      "categoria": "Educação",
+      "formaPagamento": "Crédito",
+      "tipoDespesa": "Fixa",
+      "cartaoId": "1",
+      "recorrente": true,
+      "parcelado": false
+    },
+    {
+      "id": "5",
+      "descricao": "Freelance",
+      "valor": 1200,
+      "data": "2025-05-18",
+      "tipo": "Receita",
+      "categoria": "Outros",
+      "formaPagamento": "PIX",
+      "recorrente": false,
+      "parcelado": false
+    }
+  ],
+  "cartoes": [
+    {
+      "id": "1",
+      "nome": "Nubank",
+      "bandeira": "Mastercard",
+      "limite": 5000,
+      "fechamento": 10,
+      "vencimento": 17,
+      "cor": "#8A05BE"
+    },
+    {
+      "id": "2",
+      "nome": "Itaú",
+      "bandeira": "Visa",
+      "limite": 8000,
+      "fechamento": 15,
+      "vencimento": 22,
+      "cor": "#EC7000"
+    }
+  ],
+  "resumo": {
+    "totalReceitas": 6200,
+    "totalDespesas": 3500,
+    "saldo": 2700,
+    "totalDespesasFixas": 2000,
+    "totalDespesasVariaveis": 1500,
+    "totalCartaoCredito": 1200,
+    "totalReserva": 10000,
+    "totalInvestimentos": 25000
+  },
+  "categorias": [
+    {
+      "id": "1",
+      "nome": "Alimentação",
+      "icone": "🍔"
+    },
+    {
+      "id": "2",
+      "nome": "Moradia",
+      "icone": "🏠"
+    },
+    {
+      "id": "3",
+      "nome": "Transporte",
+      "icone": "🚗"
+    },
+    {
+      "id": "4",
+      "nome": "Saúde",
+      "icone": "⚕️"
+    },
+    {
+      "id": "5",
+      "nome": "Educação",
+      "icone": "📚"
+    },
+    {
+      "id": "6",
+      "nome": "Lazer",
+      "icone": "🎮"
+    },
+    {
+      "id": "7",
+      "nome": "Vestuário",
+      "icone": "👕"
+    },
+    {
+      "id": "8",
+      "nome": "Serviços",
+      "icone": "🔧"
+    },
+    {
+      "id": "9",
+      "nome": "Investimentos",
+      "icone": "📈"
+    },
+    {
+      "id": "10",
+      "nome": "Outros",
+      "icone": "📦"
+    }
+  ],
+  "notificacoes": [
+    {
+      "id": "1",
+      "tipo": "dica",
+      "titulo": "Economize com a regra 50-30-20",
+      "mensagem": "Tente dividir seu orçamento assim: 50% para necessidades, 30% para desejos e 20% para poupança e investimentos.",
+      "data": "2025-05-18T10:30:00",
+      "lida": false,
+      "icone": "💡"
+    },
+    {
+      "id": "2",
+      "tipo": "alerta",
+      "titulo": "Gastos com alimentação acima do normal",
+      "mensagem": "Seus gastos com alimentação estão 30% acima da média dos últimos 3 meses.",
+      "data": "2025-05-17T14:15:00",
+      "lida": false,
+      "icone": "⚠️"
+    },
+    {
+      "id": "3",
+      "tipo": "lembrete",
+      "titulo": "Fatura do cartão vence em 3 dias",
+      "mensagem": "A fatura do seu cartão Nubank no valor de R$ 1.200,00 vence em 17/05/2025.",
+      "data": "2025-05-14T09:00:00",
+      "lida": true,
+      "icone": "🔔"
+    }
+  ]
+}
